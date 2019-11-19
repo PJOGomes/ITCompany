@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<company>
+    <programmer>
+        <id>1</id>
+        <firstName>Paulo</firstName>
+        <lastName>Gomes</lastName>
+        <totalDaysWorked>2</totalDaysWorked>
+        <wage>25.50</wage>
+        <active>yes</active>
+    </programmer>
+    <programmer>
+        <id>2</id>
+        <firstName>Jorge</firstName>
+        <lastName>Oliveira</lastName>
+        <totalDaysWorked>25</totalDaysWorked>
+        <wage>20.11</wage>
+        <active>yes</active>
+    </programmer>
+    <programmer>
+        <id>3</id>
+        <firstName>Estrela</firstName>
+        <lastName>Dias</lastName>
+        <totalDaysWorked>34</totalDaysWorked>
+        <wage>30.00</wage>
+        <active>no</active>
+    </programmer>
+    <Project>
+        <id>1</id>
+        <name>Angular App</name>
+        <member>1</member>
+        <member>2</member>
+        <function>Design</function>
+        <function>Database implementation</function>
+        <beginDate>10/11/2019</beginDate>
+        <endDate>29/11/2019</endDate>
+    </Project>
+</company>

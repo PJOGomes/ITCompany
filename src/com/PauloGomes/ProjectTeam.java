@@ -1,18 +1,19 @@
 package com.PauloGomes;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectTeam {
     private int id;
     private int name;
-    private ActiveProgrammer[] members;
-    private String[] functions;
+    private ArrayList<String> members;
+    private ArrayList<String> functions;
     private Date beginDate;
     private Date endDate;
 
 //    Personalized Constructor
 
-    public ProjectTeam(int id, int name, ActiveProgrammer[] members, String[] functions, Date beginDate, Date endDate) {
+    public ProjectTeam(int id, int name, ArrayList<String> members, ArrayList<String> functions, Date beginDate, Date endDate) {
         this.id = id;
         this.name = name;
         this.members = members;
@@ -20,6 +21,7 @@ public class ProjectTeam {
         this.beginDate = beginDate;
         this.endDate = endDate;
     }
+
 
 //    Getters and Setters
 
@@ -39,19 +41,19 @@ public class ProjectTeam {
         this.name = name;
     }
 
-    public ActiveProgrammer[] getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(ActiveProgrammer[] members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
 
-    public String[] getFunctions() {
+    public ArrayList<String> getFunctions() {
         return functions;
     }
 
-    public void setFunctions(String[] functions) {
+    public void setFunctions(ArrayList<String> functions) {
         this.functions = functions;
     }
 
@@ -70,6 +72,7 @@ public class ProjectTeam {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
 
 //    Methods
 
