@@ -1,7 +1,10 @@
 package com.PauloGomes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class ActiveProgrammer implements Programmer{
     private int id;
@@ -100,9 +103,27 @@ public class ActiveProgrammer implements Programmer{
 
 
     @Override
-    public void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
+    public void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        date = dateFormat.parse("00/00/0000");
         CRUDDatabase db = new CRUDDatabase();
-        ActiveProgrammer prog = new ActiveProgrammer();
+        int size = programmer.size();
+        int last = programmer.get(size-1).getId();
+
+        System.out.println("Programmer's first name: ");
+        String firstName = scanner.nextLine();
+        System.out.println("Programmer's last name: ");
+        String lastName = scanner.nextLine();
+        System.out.println("Programmer's wage: ");
+        double value = scanner.nextDouble();
+        System.out.println("Programmer's payment Method (50% or 100%): ");
+        int paymentMethod = scanner.nextInt();
+        scanner.nextLine();
+
+        ActiveProgrammer prog = new ActiveProgrammer(last+1, firstName, lastName, date, 0, value, paymentMethod, false);
+        programmer.add(prog);
         db.createFile(programmer, teams, prog);
     }
 

@@ -10,7 +10,7 @@ public class Manager {
     public Manager() {
     }
 
-    public static void printProgrammer(ArrayList<ActiveProgrammer> list) {
+    public static void printProgrammer(ArrayList<ActiveProgrammer> list, ArrayList<ProjectTeam> project) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         for(ActiveProgrammer item: list)

@@ -1,10 +1,11 @@
 package com.PauloGomes;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public interface Programmer {
-    void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
+    void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) throws ParseException;
     void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
     void deleteProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
     void calculateSalary(ActiveProgrammer person);

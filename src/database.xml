@@ -40,4 +40,14 @@
         <beginDate>10/11/2019</beginDate>
         <endDate>29/11/2019</endDate>
     </project>
+<programmer>
+<id>4</id>
+<firstName>Pedro</firstName>
+<lastName>Lopes</lastName>
+<startDatePresentProject>30/11/0002</startDatePresentProject>
+<daysWorked>0</daysWorked>
+<wage>12.12</wage>
+<paymentMethod>50</paymentMethod>
+<active>false</active>
+</programmer>
 </company>

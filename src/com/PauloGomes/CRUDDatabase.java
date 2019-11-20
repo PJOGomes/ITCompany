@@ -1,5 +1,6 @@
 package com.PauloGomes;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import com.sun.org.apache.xpath.internal.res.XPATHErrorResources_sv;
@@ -24,13 +25,12 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class CRUDDatabase {
 
-    public static <T> void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, Object object) {
+    public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ActiveProgrammer prog) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        Date startDate = new Date();
-        Date endDate = new Date();
+        String date = dateFormat.format(prog.getStartDatePresentProject());
 
         try {
+
             File xmlDoc = new File(".\\src\\database.xml");
 //            If file doesn't exist create an empty file
             if(!xmlDoc.exists()){
@@ -41,9 +41,85 @@ public class CRUDDatabase {
             DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
             DocumentBuilder dbuild = dbfact.newDocumentBuilder();
             Document doc = dbuild.parse(xmlDoc);
-            System.out.println(object.getClass());
             //Get root Element
             Element root = doc.getDocumentElement();
+
+            //Create XML fields
+
+            Element programmer = doc.createElement("programmer");
+
+            Element id = doc.createElement("id");
+            id.appendChild(doc.createTextNode(Integer.toString(prog.getId())));
+            programmer.appendChild(id);
+
+            Element firstName = doc.createElement("firstName");
+            firstName.appendChild(doc.createTextNode(prog.getFirstName()));
+            programmer.appendChild(firstName);
+
+            Element lastName = doc.createElement("lastName");
+            lastName.appendChild(doc.createTextNode(prog.getLastName()));
+            programmer.appendChild(lastName);
+
+            Element startDatePresentProject = doc.createElement("startDatePresentProject");
+            startDatePresentProject.appendChild(doc.createTextNode(date));
+            programmer.appendChild(startDatePresentProject);
+
+            Element daysWorked = doc.createElement("daysWorked");
+            daysWorked.appendChild(doc.createTextNode(Integer.toString(prog.getDaysWorkedMonth())));
+            programmer.appendChild(daysWorked);
+
+            Element wage = doc.createElement("wage");
+            wage.appendChild(doc.createTextNode(Double.toString(prog.getWage())));
+            programmer.appendChild(wage);
+
+            Element paymentMethod = doc.createElement("paymentMethod");
+            paymentMethod.appendChild(doc.createTextNode(Integer.toString(prog.getPaymentMethod())));
+            programmer.appendChild(paymentMethod);
+
+            Element active = doc.createElement("active");
+            active.appendChild(doc.createTextNode(Boolean.toString(prog.isActive())));
+            programmer.appendChild(active);
+
+            root.appendChild(programmer);
+
+            //Appending to File
+            DOMSource source = new DOMSource(doc);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            StreamResult result = new StreamResult(".\\src\\database.xml");
+            transformer.transform(source, result);
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ProjectTeam project) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Date startDate = new Date();
+        Date endDate = new Date();
+
+        try {
+
+            File xmlDoc = new File(".\\src\\database.xml");
+//            If file doesn't exist create an empty file
+            if(!xmlDoc.exists()){
+                xmlDoc.createNewFile();
+            }
+
+            //If the file exists read it's content and pass it to objects
+            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
+            Document doc = dbuild.parse(xmlDoc);
+            //Get root Element
+            Element root = doc.getDocumentElement();
+
 
 
         } catch (Exception e) {

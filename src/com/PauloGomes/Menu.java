@@ -1,5 +1,6 @@
 package com.PauloGomes;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +55,7 @@ public class Menu {
         }
     }
 
-    public static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
         Scanner scanner = new Scanner(System.in);
         String option;
         ActiveProgrammer person = new ActiveProgrammer();
