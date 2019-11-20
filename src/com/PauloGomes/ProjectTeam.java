@@ -75,5 +75,19 @@ public class ProjectTeam {
 
 
 //    Methods
+    public static void createProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
+    }
+
+    public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+
+    }
+
+    public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+
+    }
+
+    public static void checkEndDate (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+
+    }
 }

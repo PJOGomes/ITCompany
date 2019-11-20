@@ -55,6 +55,7 @@ public class Menu {
     private static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
         Scanner scanner = new Scanner(System.in);
         String option;
+        ActiveProgrammer person = new ActiveProgrammer();
         while(true) {
             System.out.println("\n\n*************************************************");
             System.out.println("      ,---------------------------,");
@@ -81,12 +82,12 @@ public class Menu {
             System.out.println("2 - Edit Programmer's Details");
             System.out.println("3 - Insert Programmer");
             System.out.println("4 - Delete Programmer");
-            System.out.println("5 - See Project Teams");
-            System.out.println("6 - Edit Project Team");
-            System.out.println("7 - Create Project Team");
-            System.out.println("8 - Delete Project Team");
+            System.out.println("5 - See Projects");
+            System.out.println("6 - Edit Project");
+            System.out.println("7 - Create Project");
+            System.out.println("8 - Delete Project");
             System.out.println("9 - Company Report");
-            System.out.println("10 - Set System's Date");
+            System.out.println("10 - Update System's Date");
             System.out.println("0 - Exit Program");
             System.out.println("*************************************************\nPlease enter your choice: \n");
             option = scanner.nextLine();
@@ -101,6 +102,7 @@ public class Menu {
                     break;
                 case "3":
                     System.out.println("Option3");
+                    person.addProgrammer(programmers);
                     subMenu();
                     break;
                 case "4":

@@ -24,7 +24,7 @@
         <wage>30.00</wage>
         <active>no</active>
     </programmer>
-    <Project>
+    <project>
         <id>1</id>
         <name>Angular App</name>
         <member>1</member>
@@ -33,5 +33,5 @@
         <function>Database implementation</function>
         <beginDate>10/11/2019</beginDate>
         <endDate>29/11/2019</endDate>
-    </Project>
+    </project>
 </company>

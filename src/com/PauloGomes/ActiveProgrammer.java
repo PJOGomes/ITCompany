@@ -7,17 +7,21 @@ public class ActiveProgrammer implements Programmer{
     private int id;
     private String firstName;
     private String lastName;
-    private int totalDaysWorked;
+    private Date startDatePresentProject;
     private int daysWorkedMonth;
     private double wage;
     private boolean active;
-//   Personalized Constructor
 
-    public ActiveProgrammer (int id, String firstName, String lastName, int totalDaysWorked, double wage, boolean active) {
+    public ActiveProgrammer() {
+    }
+
+    //   Personalized Constructor
+
+    public ActiveProgrammer(int id, String firstName, String lastName, int daysWorkedMonth, double wage, boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.totalDaysWorked = totalDaysWorked;
+        this.daysWorkedMonth = daysWorkedMonth;
         this.wage = wage;
         this.active = active;
     }
@@ -49,12 +53,12 @@ public class ActiveProgrammer implements Programmer{
         this.lastName = lastName;
     }
 
-    public int getTotalDaysWorked() {
-        return totalDaysWorked;
+    public Date getStartDatePresentProject() {
+        return startDatePresentProject;
     }
 
-    public void setTotalDaysWorked(int totalDaysWorked) {
-        this.totalDaysWorked = totalDaysWorked;
+    public void setStartDatePresentProject(Date startDatePresentProject) {
+        this.startDatePresentProject = startDatePresentProject;
     }
 
     public int getDaysWorkedMonth() {
@@ -81,6 +85,7 @@ public class ActiveProgrammer implements Programmer{
         this.active = active;
     }
 
+
     //  Methods
 
 
@@ -90,12 +95,12 @@ public class ActiveProgrammer implements Programmer{
     }
 
     @Override
-    public void editProgrammer(int id, ArrayList<ActiveProgrammer> programmer) {
+    public void editProgrammer(ArrayList<ActiveProgrammer> programmer) {
 
     }
 
     @Override
-    public void deleteProgrammer(int id, ArrayList<ActiveProgrammer> programmer) {
+    public void deleteProgrammer( ArrayList<ActiveProgrammer> programmer) {
 
     }
 
