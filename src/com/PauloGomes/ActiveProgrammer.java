@@ -10,19 +10,22 @@ public class ActiveProgrammer implements Programmer{
     private Date startDatePresentProject;
     private int daysWorkedMonth;
     private double wage;
+    private int paymentMethod;
     private boolean active;
 
     public ActiveProgrammer() {
     }
 
-    //   Personalized Constructor
+//   Personalized Constructor
 
-    public ActiveProgrammer(int id, String firstName, String lastName, int daysWorkedMonth, double wage, boolean active) {
+    public ActiveProgrammer(int id, String firstName, String lastName, Date startDatePresentProject, int daysWorkedMonth, double wage, int paymentMethod, boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.startDatePresentProject = startDatePresentProject;
         this.daysWorkedMonth = daysWorkedMonth;
         this.wage = wage;
+        this.paymentMethod = paymentMethod;
         this.active = active;
     }
 
@@ -85,22 +88,31 @@ public class ActiveProgrammer implements Programmer{
         this.active = active;
     }
 
+    public int getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     //  Methods
 
 
     @Override
-    public void addProgrammer(ArrayList<ActiveProgrammer> programmer) {
+    public void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
+        CRUDDatabase db = new CRUDDatabase();
+        ActiveProgrammer prog = new ActiveProgrammer();
+        db.createFile(programmer, teams, prog);
+    }
+
+    @Override
+    public void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
 
     }
 
     @Override
-    public void editProgrammer(ArrayList<ActiveProgrammer> programmer) {
-
-    }
-
-    @Override
-    public void deleteProgrammer( ArrayList<ActiveProgrammer> programmer) {
+    public void deleteProgrammer( ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
 
     }
 
@@ -113,4 +125,5 @@ public class ActiveProgrammer implements Programmer{
     public void adjustDaysWorked(ActiveProgrammer person, Date date) {
 
     }
+
 }

@@ -1,6 +1,8 @@
 package com.PauloGomes;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
@@ -52,12 +54,20 @@ public class Menu {
         }
     }
 
-    private static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
         Scanner scanner = new Scanner(System.in);
         String option;
         ActiveProgrammer person = new ActiveProgrammer();
+        ProjectTeam project = new ProjectTeam();
+        Manager manager = new Manager();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String today = dateFormat.format(date);
+        CRUDDatabase database = new CRUDDatabase();
+        database.readFile(programmers, teams);
         while(true) {
             System.out.println("\n\n*************************************************");
+            System.out.println("               "+today+"                        ");
             System.out.println("      ,---------------------------,");
             System.out.println("      |  /---------------------\\  |");
             System.out.println("      | |     Computer          | |");
@@ -94,43 +104,52 @@ public class Menu {
             switch (option){
                 case "1":
                     System.out.println("Option1");
+                    manager.printProgrammer(programmers, teams);
                     subMenu();
                     break;
                 case "2":
                     System.out.println("Option2");
+                    person.editProgrammer(programmers, teams);
                     subMenu();
                     break;
                 case "3":
                     System.out.println("Option3");
-                    person.addProgrammer(programmers);
+                    person.addProgrammer(programmers, teams);
                     subMenu();
                     break;
                 case "4":
                     System.out.println("Option4");
+                    person.deleteProgrammer(programmers, teams);
                     subMenu();
                     break;
                 case "5":
                     System.out.println("Option5");
+                    manager.printProject(programmers, teams);
                     subMenu();
                     break;
                 case "6":
                     System.out.println("Option6");
+                    project.editProject(programmers, teams);
                     subMenu();
                     break;
                 case "7":
                     System.out.println("Option7");
+                    project.createProject(programmers, teams);
                     subMenu();
                     break;
                 case "8":
                     System.out.println("Option8");
+                    project.deleteProject(programmers, teams);
                     subMenu();
                     break;
                 case "9":
                     System.out.println("Option9");
+                    manager.report(programmers, teams);
                     subMenu();
                     break;
                 case "10":
                     System.out.println("Option10");
+                    manager.updateDate(programmers, teams, date);
                     subMenu();
                     break;
                 case "0":

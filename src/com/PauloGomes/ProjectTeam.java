@@ -5,15 +5,18 @@ import java.util.Date;
 
 public class ProjectTeam {
     private int id;
-    private int name;
+    private String name;
     private ArrayList<String> members;
     private ArrayList<String> functions;
     private Date beginDate;
     private Date endDate;
 
-//    Personalized Constructor
+    public ProjectTeam() {
+    }
 
-    public ProjectTeam(int id, int name, ArrayList<String> members, ArrayList<String> functions, Date beginDate, Date endDate) {
+    //    Personalized Constructor
+
+    public ProjectTeam(int id, String name, ArrayList<String> members, ArrayList<String> functions, Date beginDate, Date endDate) {
         this.id = id;
         this.name = name;
         this.members = members;
@@ -33,11 +36,11 @@ public class ProjectTeam {
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -75,6 +78,8 @@ public class ProjectTeam {
 
 
 //    Methods
+
+
     public static void createProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
     }

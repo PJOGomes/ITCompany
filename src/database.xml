@@ -4,25 +4,31 @@
         <id>1</id>
         <firstName>Paulo</firstName>
         <lastName>Gomes</lastName>
-        <totalDaysWorked>2</totalDaysWorked>
+        <startDatePresentProject>10/11/2019</startDatePresentProject>
+        <daysWorked>0</daysWorked>
         <wage>25.50</wage>
-        <active>yes</active>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
     </programmer>
     <programmer>
         <id>2</id>
         <firstName>Jorge</firstName>
         <lastName>Oliveira</lastName>
-        <totalDaysWorked>25</totalDaysWorked>
+        <startDatePresentProject>10/11/2019</startDatePresentProject>
+        <daysWorked>0</daysWorked>
         <wage>20.11</wage>
-        <active>yes</active>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
     </programmer>
     <programmer>
         <id>3</id>
         <firstName>Estrela</firstName>
         <lastName>Dias</lastName>
-        <totalDaysWorked>34</totalDaysWorked>
+        <startDatePresentProject>00/00/0000</startDatePresentProject>
+        <daysWorked>34</daysWorked>
         <wage>30.00</wage>
-        <active>no</active>
+        <paymentMethod>100</paymentMethod>
+        <active>false</active>
     </programmer>
     <project>
         <id>1</id>
