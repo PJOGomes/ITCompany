@@ -25,6 +25,42 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class CRUDDatabase {
 
+    public static Document getDoc() {
+        try {
+            File xmlDoc = new File(".\\src\\database.xml");
+//            If file doesn't exist create an empty file
+            if(!xmlDoc.exists()){
+                xmlDoc.createNewFile();
+            }
+
+            //If the file exists read it's content and pass it to objects
+            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
+            Document doc = dbuild.parse(xmlDoc);
+            return doc;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static void appendDocument(Document doc) {
+        try {
+            DOMSource source = new DOMSource(doc);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            StreamResult result = new StreamResult(".\\src\\database.xml");
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ActiveProgrammer prog) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = dateFormat.format(prog.getStartDatePresentProject());
@@ -265,14 +301,13 @@ public class CRUDDatabase {
             Document doc = dbuild.parse(xmlDoc);
 
             if(change.equals("ActiveProgrammer")) {
-                System.out.println("Editing programmer in database");
+                //Get the programmer being edited
                 ActiveProgrammer p = new ActiveProgrammer();
                 for(ActiveProgrammer prog: programmers)
                 {
                     if(prog.getId()==Integer.parseInt(id))
                     {
                         p = prog;
-                        System.out.println(p.getFirstName());
                     }
                 }
 
@@ -280,6 +315,7 @@ public class CRUDDatabase {
                 for (int i = 0; i <progList.getLength() ; i++) {
                     Node eachNode = progList.item(i);
                     Element single = (Element) eachNode;
+                    //Change the Node tags if it has the same id that was passed as parameter
                     if(single.getElementsByTagName("id").item(0).getTextContent().equals(id)){
                         single.getElementsByTagName("firstName").item(0).setTextContent(p.getFirstName());
                         single.getElementsByTagName("lastName").item(0).setTextContent(p.getLastName());
@@ -292,6 +328,15 @@ public class CRUDDatabase {
                 }
 
             } else if (change.equals("ProjectTeam")) {
+                //Get the project being edited
+                    ProjectTeam p = new ProjectTeam();
+                    for(ProjectTeam proj: teams) {
+                        if(proj.getId()==Integer.parseInt(id)){
+                            p = proj;
+                        }
+                    }
+                    //TODO: Delete node from database
+                    createFile(programmers, teams, p);
 
             } else
             {
@@ -316,7 +361,42 @@ public class CRUDDatabase {
 
     }
 
-    public static void deleteFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void deleteFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, int id, String deleteFrom) {
+        try {
+            Document doc = getDoc();
+            //Get XML root
+            Element root = doc.getDocumentElement();
+            if(deleteFrom.equals("programmers"))
+            {
+                NodeList listprog = doc.getElementsByTagName("programmer");
+                for (int i = 0; i <listprog.getLength() ; i++) {
+                    Node eachNode = listprog.item(i);
+                    Element single = (Element) eachNode;
+                    if(single.getElementsByTagName("id").item(0).getTextContent().equals(Integer.toString(id))){
+                        root.removeChild(eachNode);
+                    }
+                }
+
+            } else if(deleteFrom.equals("projects")) {
+                NodeList listproj = doc.getElementsByTagName("project");
+                for (int i = 0; i <listproj.getLength() ; i++) {
+                    Node eachNode = listproj.item(i);
+                    Element single = (Element) eachNode;
+                    if(single.getElementsByTagName("id").item(0).getTextContent().equals(Integer.toString(id))){
+                        System.out.println("Removing "+eachNode.getNodeName());
+                        root.removeChild(eachNode);
+
+                    }
+                }
+            }  else {
+                System.out.println("Error deleting");
+                return;
+            }
+            appendDocument(doc);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

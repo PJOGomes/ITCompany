@@ -201,6 +201,27 @@ public class ActiveProgrammer implements Programmer{
 
     @Override
     public void deleteProgrammer( ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
+        System.out.println("Choose a programmer Id to delete the project: ");
+        Manager.printProgrammer(programmer, teams);
+        Scanner scanner = new Scanner(System.in);
+        int id =0;
+        if(scanner.hasNextInt()){
+            id = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Please choose a valid option: ");
+            deleteProgrammer(programmer, teams);
+        }
+        //TODO: Check if user is active and edit project if active
+        CRUDDatabase.deleteFile(programmer, teams, id, "programmers");
+        int indexRemove=-1;
+        for(ActiveProgrammer prog: programmer) {
+            if(prog.getId()==id){
+                indexRemove = programmer.indexOf(prog);
+            }
+        }
+        programmer.remove(indexRemove);
+        System.out.println("Programmer deleted with success");
 
     }
 

@@ -149,10 +149,30 @@ public class ProjectTeam {
     }
 
     public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
-
+        ProjectTeam t = new ProjectTeam();
+        t = teams.get(0);
+//        t.members.add("3");
+//        t.members.add("4");
+        CRUDDatabase db = new CRUDDatabase();
+        db.updateFile(programmers, teams, Integer.toString(t.getId()), "ProjectTeam");
+        t.members.remove(3);
+        db.updateFile(programmers, teams, Integer.toString(t.getId()), "ProjectTeam");
     }
 
     public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+        System.out.println("Choose a project Id to delete the project: ");
+        Manager.printProject(programmers, teams);
+        Scanner scanner = new Scanner(System.in);
+        int id =0;
+        if(scanner.hasNextInt()){
+            id = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Please choose a valid option: ");
+            deleteProject(programmers, teams);
+        }
+        CRUDDatabase.deleteFile(programmers, teams, id, "projects");
+
 
     }
 
