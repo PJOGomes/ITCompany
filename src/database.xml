@@ -24,22 +24,20 @@
         <id>3</id>
         <firstName>Estrela</firstName>
         <lastName>Dias</lastName>
-        <startDatePresentProject>30/11/0002</startDatePresentProject>
+        <startDatePresentProject>00/00/0000</startDatePresentProject>
         <daysWorked>34</daysWorked>
         <wage>30.0</wage>
         <paymentMethod>100</paymentMethod>
         <active>false</active>
     </programmer>
-
-
-<project>
-    <id>1</id>
-    <name>Angular App</name>
-    <member>2</member>
-    <member>1</member>
-    <function>Batatinhas</function>
-    <function>Relax</function>
-    <beginDate>11/11/2019</beginDate>
-    <endDate>29/11/2019</endDate>
-  </project>
+    <project>
+        <id>1</id>
+        <name>Angular App</name>
+        <member>2</member>
+        <member>1</member>
+        <function>Batatinhas</function>
+        <function>Relax</function>
+        <beginDate>11/11/2019</beginDate>
+        <endDate>29/11/2019</endDate>
+    </project>
 </company>

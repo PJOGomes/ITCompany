@@ -1,5 +1,6 @@
 package com.PauloGomes;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class Menu {
         }
     }
 
-    public static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+    public static void mainMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
         ActiveProgrammer person = new ActiveProgrammer();
@@ -115,7 +116,7 @@ public class Menu {
         }
     }
 
-    private static void programmerMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+    private static void programmerMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
         ActiveProgrammer person = new ActiveProgrammer();
@@ -163,7 +164,7 @@ public class Menu {
 
     }
 
-    private static void projectMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+    private static void projectMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
 //        ActiveProgrammer person = new ActiveProgrammer();
@@ -210,7 +211,7 @@ public class Menu {
         }
     }
 
-    private static void companyMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+    private static void companyMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
 //        ActiveProgrammer person = new ActiveProgrammer();
@@ -225,6 +226,7 @@ public class Menu {
             System.out.println("========== Company Menu ==========");
             System.out.println("1 - Company Report");
             System.out.println("2 - Update System's Date");
+            System.out.println("3 - Reload database");
             System.out.println("0 - Return to main menu");
             option = scanner.nextLine();
             switch (option){
@@ -234,6 +236,12 @@ public class Menu {
                     break;
                 case "2":
                     Manager.updateDate(programmers, teams, date);
+                    subMenu();
+                    break;
+                case "3":
+                    System.out.println("The database from the last system exit will be reloaded");
+                    CRUDDatabase.loadBackup();
+                    CRUDDatabase.readFile(programmers, teams);
                     subMenu();
                     break;
                 case "0":

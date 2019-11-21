@@ -1,6 +1,9 @@
 package com.PauloGomes;
 
+import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import com.sun.org.apache.xpath.internal.res.XPATHErrorResources_sv;
@@ -18,7 +21,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.util.Date;
 
 import static javax.xml.bind.DatatypeConverter.parseInteger;
@@ -325,6 +327,21 @@ public class CRUDDatabase {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+    }
+
+    public static void loadBackup() throws IOException {
+        File xmlDoc = new File(".\\src\\database.xml");
+//            If file doesn't exist create an empty file
+        if(!xmlDoc.exists()){
+            xmlDoc.createNewFile();
+        }
+        //Empty file
+        new FileOutputStream(".\\src\\database.xml").close();
+        //Copy backup
+        OutputStream os = new FileOutputStream(".\\src\\database.xml");
+        Files.copy(Paths.get(".\\src\\backup.xml"), os);
+        os.close();
 
     }
 
