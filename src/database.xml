@@ -30,17 +30,17 @@
         <paymentMethod>100</paymentMethod>
         <active>false</active>
     </programmer>
-    <project>
-        <id>1</id>
-        <name>Angular App</name>
-        <member>1</member>
-        <member>2</member>
-        <function>Design</function>
-        <function>Database implementation</function>
-        <beginDate>10/11/2019</beginDate>
-        <endDate>29/11/2019</endDate>
-  </project>
     
-
-
+<project>
+    <id>1</id>
+    <name>Angular App</name>
+    <member>1</member>
+    <member>2</member>
+    <member>3</member>
+    <function>Design</function>
+    <function>Database implementation</function>
+    <function>4</function>
+    <beginDate>10/11/2019</beginDate>
+    <endDate>29/11/2019</endDate>
+  </project>
 </company>

@@ -150,13 +150,11 @@ public class ProjectTeam {
 
     public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
         ProjectTeam t = new ProjectTeam();
-        t = teams.get(0);
-//        t.members.add("3");
-//        t.members.add("4");
         CRUDDatabase db = new CRUDDatabase();
-        db.updateFile(programmers, teams, Integer.toString(t.getId()), "ProjectTeam");
-        t.members.remove(3);
-        db.updateFile(programmers, teams, Integer.toString(t.getId()), "ProjectTeam");
+
+        db.deleteFile(programmers,teams, t.getId(), "projects");
+        db.createFile(programmers, teams, t);
+
     }
 
     public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {

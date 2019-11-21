@@ -67,16 +67,8 @@ public class CRUDDatabase {
 
         try {
 
-            File xmlDoc = new File(".\\src\\database.xml");
-//            If file doesn't exist create an empty file
-            if(!xmlDoc.exists()){
-                xmlDoc.createNewFile();
-            }
+            Document doc = getDoc();
 
-            //If the file exists read it's content and pass it to objects
-            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
-            Document doc = dbuild.parse(xmlDoc);
             //Get root Element
             Element root = doc.getDocumentElement();
 
@@ -119,16 +111,7 @@ public class CRUDDatabase {
             root.appendChild(programmer);
 
             //Appending to File
-            DOMSource source = new DOMSource(doc);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult result = new StreamResult(".\\src\\database.xml");
-            transformer.transform(source, result);
-
+            appendDocument(doc);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -141,16 +124,7 @@ public class CRUDDatabase {
 
         try {
 
-            File xmlDoc = new File(".\\src\\database.xml");
-//            If file doesn't exist create an empty file
-            if(!xmlDoc.exists()){
-                xmlDoc.createNewFile();
-            }
-
-            //If the file exists read it's content and pass it to objects
-            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
-            Document doc = dbuild.parse(xmlDoc);
+            Document doc = getDoc();
             //Get root Element
             Element root = doc.getDocumentElement();
 
@@ -191,17 +165,7 @@ public class CRUDDatabase {
 
             //Append to file
 
-            DOMSource source = new DOMSource(doc);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult result = new StreamResult(".\\src\\database.xml");
-            transformer.transform(source, result);
-
-
+           appendDocument(doc);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -216,16 +180,8 @@ public class CRUDDatabase {
         Date startDate = new Date();
         Date endDate = new Date();
         try {
-            File xmlDoc = new File(".\\src\\database.xml");
-//            If file doesn't exist create an empty file
-            if(!xmlDoc.exists()){
-                xmlDoc.createNewFile();
-            }
 
-            //If the file exists read it's content and pass it to objects
-            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
-            Document doc = dbuild.parse(xmlDoc);
+            Document doc = getDoc();
 
             //Parse Active Programmers ArrayList
             NodeList programmersList = doc.getElementsByTagName("programmer");
@@ -289,16 +245,8 @@ public class CRUDDatabase {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            File xmlDoc = new File(".\\src\\database.xml");
-//            If file doesn't exist create an empty file
-            if(!xmlDoc.exists()){
-                xmlDoc.createNewFile();
-            }
 
-            //If the file exists read it's content and pass it to objects
-            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
-            Document doc = dbuild.parse(xmlDoc);
+            Document doc = getDoc();
 
             if(change.equals("ActiveProgrammer")) {
                 //Get the programmer being edited
@@ -327,17 +275,6 @@ public class CRUDDatabase {
                     }
                 }
 
-            } else if (change.equals("ProjectTeam")) {
-                //Get the project being edited
-                    ProjectTeam p = new ProjectTeam();
-                    for(ProjectTeam proj: teams) {
-                        if(proj.getId()==Integer.parseInt(id)){
-                            p = proj;
-                        }
-                    }
-                    //TODO: Delete node from database
-                    createFile(programmers, teams, p);
-
             } else
             {
                 System.out.println("Error Updating Database");
@@ -345,15 +282,7 @@ public class CRUDDatabase {
 
             //Append to file
 
-            DOMSource source = new DOMSource(doc);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult result = new StreamResult(".\\src\\database.xml");
-            transformer.transform(source, result);
+           appendDocument(doc);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -383,9 +312,8 @@ public class CRUDDatabase {
                     Node eachNode = listproj.item(i);
                     Element single = (Element) eachNode;
                     if(single.getElementsByTagName("id").item(0).getTextContent().equals(Integer.toString(id))){
-                        System.out.println("Removing "+eachNode.getNodeName());
+                        System.out.println("Removing "+eachNode.getNodeName()+eachNode.getChildNodes().item(0));
                         root.removeChild(eachNode);
-
                     }
                 }
             }  else {
