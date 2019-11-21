@@ -30,7 +30,7 @@ public class Manager {
     public static void printProject(ArrayList<ActiveProgrammer> listap, ArrayList<ProjectTeam> list) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (ProjectTeam item: list) {
-            System.out.println("-------Programmer "+item.getId()+"---------");
+            System.out.println("-------Project "+item.getId()+"---------");
             System.out.println("Project name: "+item.getName());
             System.out.println("Team Members: ");
             for (int i = 0; i <item.getMembers().size() ; i++) {

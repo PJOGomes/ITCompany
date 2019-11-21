@@ -116,6 +116,7 @@ public class ActiveProgrammer implements Programmer{
         String firstName = scanner.nextLine();
         System.out.println("Programmer's last name: ");
         String lastName = scanner.nextLine();
+        //TODO : implement Validations
         System.out.println("Programmer's wage: ");
         double value = scanner.nextDouble();
         System.out.println("Programmer's payment Method (50% or 100%): ");
