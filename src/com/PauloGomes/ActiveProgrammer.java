@@ -130,7 +130,73 @@ public class ActiveProgrammer implements Programmer{
 
     @Override
     public void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
+        ActiveProgrammer p = new ActiveProgrammer();
+        String option ="";
+        int choosenId = 0;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose the Id of the programmer you want to edit:");
+        for(ActiveProgrammer prog: programmer){
+            System.out.println(prog.getId()+ " - "+prog.getLastName().toUpperCase()+", "+prog.getFirstName());
+        }
+        if(scanner.hasNextInt())
+        {
+            choosenId = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Choose a valid option");
+            editProgrammer(programmer, teams);
+        }
+        //TODO: Validate choosen ID
+        for(ActiveProgrammer prog: programmer){
+            if(prog.getId()==choosenId)
+            {
+                p = prog;
+            }
+        }
+        System.out.println("Editing programmer "+p.getId());
+        Boolean exit = false;
+        while(!exit){
+            System.out.println("1 - Edit first name:");
+            System.out.println("2 - Edit last name:");
+            System.out.println("3 - Edit wage:");
+            System.out.println("4 - Edit payment method:");
+            System.out.println("5 - End Edit");
+            option = scanner.nextLine();
+            switch (option) {
+                case "1":
+                    System.out.println("Change first name from "+p.getFirstName()+" to:");
+                    String temp = scanner.nextLine();
+                    p.setFirstName(temp);
+                    break;
+                case "2":
+                    System.out.println("Change first name from "+p.getLastName()+" to:");
+                    String aux = scanner.nextLine();
+                    p.setLastName(aux);
+                    break;
+                case "3":
+                    System.out.println("Change wage from "+p.getWage()+" to:");
+                    //TODO: Validate double
+                    Double value = scanner.nextDouble();
+                    p.setWage(value);
+                    break;
+                case "4":
+                    System.out.println("Change payment method from "+p.getPaymentMethod()+"% to:");
+                    //TODO: Validate int
+                    int pay = scanner.nextInt();
+                    p.setPaymentMethod(pay);
+                    break;
+                case "5":
+                    System.out.println("Editing ended");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Please choose a valid option");
+                    break;
+            }
+        }
 
+        CRUDDatabase update = new CRUDDatabase();
+        update.updateFile(programmer, teams, Integer.toString(choosenId), "ActiveProgrammer");
     }
 
     @Override

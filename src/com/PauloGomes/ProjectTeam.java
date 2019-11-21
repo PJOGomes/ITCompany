@@ -101,7 +101,7 @@ public class ProjectTeam {
         for (ActiveProgrammer prog: programmers)
         {
             if(!prog.isActive()) {
-                System.out.println("Pogrammer Id: "+prog.getId()+ " -> "+prog.getLastName().toUpperCase()+", "+prog.getFirstName()+" is available");
+                System.out.println("Programmer Id: "+prog.getId()+ " -> "+prog.getLastName().toUpperCase()+", "+prog.getFirstName()+" is available");
             }
         }
         while (addAnother) {

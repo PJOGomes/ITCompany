@@ -249,7 +249,70 @@ public class CRUDDatabase {
 
     }
 
-    public static void updateFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void updateFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, String id, String change) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            File xmlDoc = new File(".\\src\\database.xml");
+//            If file doesn't exist create an empty file
+            if(!xmlDoc.exists()){
+                xmlDoc.createNewFile();
+            }
+
+            //If the file exists read it's content and pass it to objects
+            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
+            Document doc = dbuild.parse(xmlDoc);
+
+            if(change.equals("ActiveProgrammer")) {
+                System.out.println("Editing programmer in database");
+                ActiveProgrammer p = new ActiveProgrammer();
+                for(ActiveProgrammer prog: programmers)
+                {
+                    if(prog.getId()==Integer.parseInt(id))
+                    {
+                        p = prog;
+                        System.out.println(p.getFirstName());
+                    }
+                }
+
+                NodeList progList = doc.getElementsByTagName("programmer");
+                for (int i = 0; i <progList.getLength() ; i++) {
+                    Node eachNode = progList.item(i);
+                    Element single = (Element) eachNode;
+                    if(single.getElementsByTagName("id").item(0).getTextContent().equals(id)){
+                        single.getElementsByTagName("firstName").item(0).setTextContent(p.getFirstName());
+                        single.getElementsByTagName("lastName").item(0).setTextContent(p.getLastName());
+                        single.getElementsByTagName("startDatePresentProject").item(0).setTextContent(dateFormat.format(p.getStartDatePresentProject()));
+                        single.getElementsByTagName("daysWorked").item(0).setTextContent(Integer.toString(p.getDaysWorkedMonth()));
+                        single.getElementsByTagName("wage").item(0).setTextContent(Double.toString(p.getWage()));
+                        single.getElementsByTagName("paymentMethod").item(0).setTextContent(Integer.toString(p.getPaymentMethod()));
+                        single.getElementsByTagName("active").item(0).setTextContent(Boolean.toString(p.isActive()));
+                    }
+                }
+
+            } else if (change.equals("ProjectTeam")) {
+
+            } else
+            {
+                System.out.println("Error Updating Database");
+            }
+
+            //Append to file
+
+            DOMSource source = new DOMSource(doc);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            StreamResult result = new StreamResult(".\\src\\database.xml");
+            transformer.transform(source, result);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
