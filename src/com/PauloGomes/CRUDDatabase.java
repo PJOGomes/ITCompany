@@ -345,4 +345,13 @@ public class CRUDDatabase {
 
     }
 
+    public static void saveExit() throws IOException {
+        //Clean backup
+        new FileOutputStream(".\\src\\backup.xml").close();
+        //Copy to backup
+        OutputStream os = new FileOutputStream(".\\src\\backup.xml");
+        Files.copy(Paths.get(".\\src\\database.xml"), os);
+        os.close();
+    }
+
 }

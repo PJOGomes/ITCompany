@@ -108,6 +108,7 @@ public class Menu {
                    companyMenu(programmers, teams);
                 case "0":
                     System.out.println("Thank you for using our Program");
+                    CRUDDatabase.saveExit();
                     exit = true;
                     System.exit(0);
                 default:
