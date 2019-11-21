@@ -207,12 +207,35 @@ public class ProjectTeam {
                     t.getFunctions().set(choice-1, function);
                     break;
                 case "4":
+                    System.out.println("The project was starting on "+dateFormat.format(t.getBeginDate())+" and will be changed to: (dd/MM/yyy format)");
+                    String date = scanner.nextLine();
+
+                    if(checkProjectDates(dateFormat.parse(date), t.getEndDate()))
+                    {
+                        t.setBeginDate(dateFormat.parse(date));
+                        break;
+                    } else {
+                        System.out.println("You did not enter a valid data");
+                        editProject(programmers, teams);
+                    }
                     break;
                 case "5":
+                    System.out.println("The project was ending on "+dateFormat.format(t.getEndDate())+" and will be changed to: (dd/MM/yyy format)");
+                    date = scanner.nextLine();
+
+                    if(checkProjectDates(t.getBeginDate(), dateFormat.parse(date)))
+                    {
+                        t.setEndDate(dateFormat.parse(date));
+                        break;
+                    } else {
+                        System.out.println("You did not enter a valid data");
+                        editProject(programmers, teams);
+                    }
                     break;
                 case "0":
+
                     exit = true;
-                    break;
+                    return;
                 default:
                     System.out.println("Please enter a valid option:");
                             break;
@@ -336,10 +359,14 @@ public class ProjectTeam {
     }
 
 
-    public static boolean checkStartDate(Date date){
-        return false;
-    }
-    public static boolean checkEndDate (Date dateStart, Date dateEnd) {
-        return false;
+    public static boolean checkProjectDates(Date dateStart, Date dateEnd){
+        if(dateStart.after(dateEnd)){
+            return false;
+        } else if(dateEnd.before(dateStart))
+        {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
