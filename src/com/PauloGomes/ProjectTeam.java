@@ -207,6 +207,12 @@ public class ProjectTeam {
                     t.getFunctions().set(choice-1, function);
                     break;
                 case "4":
+                    Date today = new Date();
+                    if(t.getBeginDate().before(today))
+                    {
+                        System.out.println("You can't edit the start date of an ongoing project");
+                        editProject(programmers, teams);
+                    }
                     System.out.println("The project was starting on "+dateFormat.format(t.getBeginDate())+" and will be changed to: (dd/MM/yyy format)");
                     String date = scanner.nextLine();
 
@@ -220,9 +226,13 @@ public class ProjectTeam {
                     }
                     break;
                 case "5":
+                    Date dt = new Date();
                     System.out.println("The project was ending on "+dateFormat.format(t.getEndDate())+" and will be changed to: (dd/MM/yyy format)");
                     date = scanner.nextLine();
-
+                    if(dateFormat.parse(date).before(dt)){
+                        System.out.println("you can't set an end date prior to today");
+                        editProject(programmers, teams);
+                    }
                     if(checkProjectDates(t.getBeginDate(), dateFormat.parse(date)))
                     {
                         t.setEndDate(dateFormat.parse(date));
