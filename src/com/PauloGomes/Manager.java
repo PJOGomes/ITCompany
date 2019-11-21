@@ -50,7 +50,32 @@ public class Manager {
         }
     }
 
-    public static void report (ArrayList<ActiveProgrammer> programmmers, ArrayList<ProjectTeam> teams) {
+    public static void printProgrammersProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, int id){
+        ProjectTeam t = new ProjectTeam();
+        for(ProjectTeam pt: teams){
+            if(pt.getId()==id){
+                t = pt;
+            }
+        }
+        for (int i = 0; i <t.getMembers().size() ; i++) {
+            for(ActiveProgrammer p: programmers)
+            {
+                if(t.getMembers().get(i).equals(Integer.toString(p.getId()))){
+                    System.out.println(p.getId() + " - "+p.getFirstName()+" "+p.getLastName());
+                }
+            }
+        }
+    }
+
+    public static void printInactive(ArrayList<ActiveProgrammer> programmers) {
+        for(ActiveProgrammer prog: programmers) {
+            if(prog.isActive()==false){
+                System.out.println(prog.getId() + " - "+prog.getFirstName()+" "+prog.getLastName());
+            }
+        }
+    }
+
+    public static void report (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
     }
 

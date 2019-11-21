@@ -148,13 +148,174 @@ public class ProjectTeam {
 
     }
 
-    public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
         ProjectTeam t = new ProjectTeam();
         CRUDDatabase db = new CRUDDatabase();
-
+        Scanner scanner = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("Choose the Id of the project you want to edit: ");
+        Manager.printProject(programmers, teams);
+        int choosenId =0;
+        if(scanner.hasNextInt()){
+            choosenId = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Enter a valid Id");
+            editProject(programmers, teams);
+        }
+        for(ProjectTeam proj: teams){
+            if(proj.getId() == choosenId) {
+                t = proj;
+            }
+        }
+        System.out.println("Editing project " +t.getId());
+        String option;
+        boolean exit = false;
+        while(!exit){
+            System.out.println("1 - Edit Project Name: ");
+            System.out.println("2 - Edit Project Team: ");
+            System.out.println("3 - Edit Project Team Functions: ");
+            System.out.println("4 - Edit Project's Start Date: ");
+            System.out.println("5 - Edit Project's End Date: ");
+            System.out.println("0 - End Edit");
+            option = scanner.nextLine();
+            switch(option){
+                case "1":
+                    System.out.println("Change Projet Name from "+t.getName()+" to: ");
+                    String name = scanner.nextLine();
+                    t.setName(name);
+                    break;
+                case "2":
+                    editTeam(t, programmers, teams);
+                    break;
+                case "3":
+                    System.out.println("Choose the functions to edit:");
+                    for (int i = 0; i <t.getFunctions().size() ; i++) {
+                        System.out.println(i+1+" - " + t.getFunctions().get(i));
+                    }
+                    int choice =0;
+                    if(scanner.hasNextInt())
+                    {
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+                    } else {
+                        System.out.println("error");
+                        break;
+                    }
+                    System.out.println("Enter the new function:");
+                    String function = scanner.nextLine();
+                    t.getFunctions().set(choice-1, function);
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    break;
+                case "0":
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option:");
+                            break;
+            }
+        }
         db.deleteFile(programmers,teams, t.getId(), "projects");
         db.createFile(programmers, teams, t);
 
+    }
+
+    public static void editTeam(ProjectTeam t, ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        String option;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("1 - Add Programmer to the team");
+            System.out.println("2 - Remove Programmer from the team");
+            System.out.println("3 - Exchange Programmer in the team");
+            System.out.println("0 - Return to the editing menu");
+            option = scanner.nextLine();
+            switch(option){
+                case "1":
+                    System.out.println("Choose the Id of the programmer you want to add:");
+                        Manager.printInactive(programmers);
+                        int choosenId = 0;
+                        if(scanner.hasNextInt()){
+                            choosenId=scanner.nextInt();
+                            scanner.nextLine();
+                            //TODO: Validate Id entered
+                        } else {
+                            System.out.println("Enter a valid Id");
+                            break;
+                        }
+                        t.members.add(Integer.toString(choosenId));
+                    System.out.println("What will be the programmer's function?");
+                    String function = scanner.nextLine();
+                    t.getFunctions().add(function);
+                        for(ActiveProgrammer prog: programmers){
+                            if(prog.getId()==choosenId){
+                                prog.setActive(true);
+                                Date date = new Date();
+                                prog.setStartDatePresentProject(date);
+                                CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()),"ActiveProgrammer");
+                            }
+                        }
+                    break;
+                case "2":
+                    System.out.println("Choose the Id of the programmer you want to remove");
+                    Manager.printProgrammersProject(programmers, teams, t.getId());
+                    int choosen=0;
+                        if(scanner.hasNextInt()){
+                            choosen=scanner.nextInt();
+                            scanner.nextLine();
+                            //TODO: Validate Id
+                        } else {
+                            System.out.println("Enter a valid Id");
+                            break;
+                        }
+                        int index = t.getMembers().indexOf(Integer.toString(choosen));
+                        t.getMembers().remove(index);
+                        t.getFunctions().remove(index);
+                        for(ActiveProgrammer prog: programmers)
+                        {
+                            if(prog.getId()==choosen){
+                                prog.setActive(false);
+                                prog.setStartDatePresentProject(dateFormat.parse("00/00/0000") );
+                                CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()),"ActiveProgrammer");
+                            }
+                        }
+                    break;
+                case "3":
+                    System.out.println("Choose the Id of the programmer you want to add:");
+                    Manager.printInactive(programmers);
+                    String chooseEntering = scanner.nextLine();
+                    System.out.println("Choose the Id of the programmer you want to remove:");
+                    Manager.printProgrammersProject(programmers, teams, t.getId());
+                    String chooseExit = scanner.nextLine();
+                    int indexEntrance = Integer.parseInt(chooseEntering);
+                    int indexExit = Integer.parseInt(chooseExit);
+                    t.getMembers().add(chooseEntering);
+                    t.getMembers().remove(t.getMembers().indexOf(chooseExit));
+                    System.out.println("Entrada "+indexEntrance +" Saida "+indexExit);
+                    for(ActiveProgrammer p2: programmers) {
+                        if(p2.getId()==indexEntrance){
+                            Date date=new Date();
+                            p2.setActive(true);
+                            p2.setStartDatePresentProject(date);
+                            CRUDDatabase.updateFile(programmers, teams, Integer.toString(p2.getId()),"ActiveProgrammer");
+                        } else if(p2.getId()==indexExit) {
+                            p2.setActive(false);
+                            p2.setStartDatePresentProject(dateFormat.parse("00/00/0000"));
+                            CRUDDatabase.updateFile(programmers, teams, Integer.toString(p2.getId()),"ActiveProgrammer");
+                        }
+                    }
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Please enter a valid option");
+            }
+
+        }
     }
 
     public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
@@ -174,7 +335,11 @@ public class ProjectTeam {
 
     }
 
-    public static void checkEndDate (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
+    public static boolean checkStartDate(Date date){
+        return false;
+    }
+    public static boolean checkEndDate (Date dateStart, Date dateEnd) {
+        return false;
     }
 }
