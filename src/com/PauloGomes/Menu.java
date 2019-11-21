@@ -66,7 +66,8 @@ public class Menu {
         String today = dateFormat.format(date);
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
-        while(true) {
+        boolean exit = false;
+        while(!exit) {
             System.out.println("\n\n*************************************************");
             System.out.println("               "+today+"                        ");
             System.out.println("      ,---------------------------,");
@@ -89,72 +90,24 @@ public class Menu {
             System.out.println("  /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ /");
             System.out.println("  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
             System.out.println("\nPlease enter an option:\n");
-            System.out.println("1 - See Programmers List");
-            System.out.println("2 - Edit Programmer's Details");
-            System.out.println("3 - Insert Programmer");
-            System.out.println("4 - Delete Programmer");
-            System.out.println("5 - See Projects");
-            System.out.println("6 - Edit Project");
-            System.out.println("7 - Create Project");
-            System.out.println("8 - Delete Project");
-            System.out.println("9 - Company Report");
-            System.out.println("10 - Update System's Date");
+            System.out.println("1 - Programmer Menu");
+            System.out.println("2 - Project Menu");
+            System.out.println("3 - Company Menu");
             System.out.println("0 - Exit Program");
             System.out.println("*************************************************\nPlease enter your choice: \n");
             option = scanner.nextLine();
             switch (option){
                 case "1":
-                    System.out.println("Option1");
-                    manager.printProgrammer(programmers, teams);
-                    subMenu();
+                    programmerMenu(programmers, teams);
                     break;
                 case "2":
-                    System.out.println("Option2");
-                    person.editProgrammer(programmers, teams);
-                    subMenu();
+                    projectMenu(programmers, teams);
                     break;
                 case "3":
-                    System.out.println("Option3");
-                    person.addProgrammer(programmers, teams);
-                    subMenu();
-                    break;
-                case "4":
-                    System.out.println("Option4");
-                    person.deleteProgrammer(programmers, teams);
-                    subMenu();
-                    break;
-                case "5":
-                    System.out.println("Option5");
-                    manager.printProject(programmers, teams);
-                    subMenu();
-                    break;
-                case "6":
-                    System.out.println("Option6");
-                    project.editProject(programmers, teams);
-                    subMenu();
-                    break;
-                case "7":
-                    System.out.println("Option7");
-                    project.createProject(programmers, teams);
-                    subMenu();
-                    break;
-                case "8":
-                    System.out.println("Option8");
-                    project.deleteProject(programmers, teams);
-                    subMenu();
-                    break;
-                case "9":
-                    System.out.println("Option9");
-                    manager.report(programmers, teams);
-                    subMenu();
-                    break;
-                case "10":
-                    System.out.println("Option10");
-                    manager.updateDate(programmers, teams, date);
-                    subMenu();
-                    break;
+                   companyMenu(programmers, teams);
                 case "0":
                     System.out.println("Thank you for using our Program");
+                    exit = true;
                     System.exit(0);
                 default:
                     System.out.println("You must enter a valid option");
@@ -162,12 +115,145 @@ public class Menu {
         }
     }
 
+    private static void programmerMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        String option;
+        ActiveProgrammer person = new ActiveProgrammer();
+//        ProjectTeam project = new ProjectTeam();
+//        Manager manager = new Manager();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        Date date = new Date();
+//        String today = dateFormat.format(date);
+//        CRUDDatabase database = new CRUDDatabase();
+        boolean exit=false;
+        while(!exit){
+            System.out.println("======== Programmer Menu ========");
+            System.out.println("1 - See Programmers");
+            System.out.println("2 - Edit Programmer");
+            System.out.println("3 - Create Programmer");
+            System.out.println("4 - Delete Programmer");
+            System.out.println("0 - Return to main menu");
+            option = scanner.nextLine();
+            switch (option){
+                case "1":
+                    Manager.printProgrammer(programmers, teams);
+                    subMenu();
+                    break;
+                case "2":
+                    person.editProgrammer(programmers, teams);
+                    subMenu();
+                    break;
+                case "3":
+                    person.addProgrammer(programmers, teams);
+                    subMenu();
+                    break;
+                case "4":
+                    person.deleteProgrammer(programmers, teams);
+                    subMenu();
+                    break;
+                case "0":
+                    mainMenu(programmers, teams);
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option");
+                    break;
+            }
+        }
+
+    }
+
+    private static void projectMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        String option;
+//        ActiveProgrammer person = new ActiveProgrammer();
+        ProjectTeam project = new ProjectTeam();
+//        Manager manager = new Manager();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        Date date = new Date();
+//        String today = dateFormat.format(date);
+//        CRUDDatabase database = new CRUDDatabase();
+        boolean exit=false;
+        while(!exit){
+            System.out.println("========== Project Menu ==========");
+            System.out.println("1 - See Projects List");
+            System.out.println("2 - Edit Project");
+            System.out.println("3 - Insert Project");
+            System.out.println("4 - Delete Project");
+            System.out.println("0 - Return to main menu");
+            option = scanner.nextLine();
+            switch (option){
+                case "1":
+                    Manager.printProject(programmers, teams);
+                    subMenu();
+                    break;
+                case "2":
+                    project.editProject(programmers, teams);
+                    subMenu();
+                    break;
+                case "3":
+                    project.createProject(programmers, teams);
+                    subMenu();
+                    break;
+                case "4":
+                    project.deleteProject(programmers, teams);
+                    subMenu();
+                    break;
+                case "0":
+                    mainMenu(programmers, teams);
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option");
+                    break;
+            }
+        }
+    }
+
+    private static void companyMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        String option;
+//        ActiveProgrammer person = new ActiveProgrammer();
+//        ProjectTeam project = new ProjectTeam();
+//        Manager manager = new Manager();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String today = dateFormat.format(date);
+//        CRUDDatabase database = new CRUDDatabase();
+        boolean exit=false;
+        while(!exit){
+            System.out.println("========== Company Menu ==========");
+            System.out.println("1 - Company Report");
+            System.out.println("2 - Update System's Date");
+            System.out.println("0 - Return to main menu");
+            option = scanner.nextLine();
+            switch (option){
+                case "1":
+                    Manager.report(programmers, teams);
+                    subMenu();
+                    break;
+                case "2":
+                    Manager.updateDate(programmers, teams, date);
+                    subMenu();
+                    break;
+                case "0":
+                    mainMenu(programmers, teams);
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option");
+                    break;
+            }
+        }
+    }
+
+
     private static void subMenu(){
         Scanner scanner = new Scanner(System.in);
         String option;
         while(true){
             System.out.println("\n\n*************************************************");
-            System.out.println("1 - Go back to main menu");
+            System.out.println("1 - Go back to menu");
             System.out.println("0 - Quit Program");
             System.out.println("*************************************************\nPlease enter your choice: \n");
             option = scanner.nextLine();

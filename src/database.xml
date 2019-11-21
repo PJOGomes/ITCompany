@@ -30,9 +30,6 @@
         <paymentMethod>100</paymentMethod>
         <active>false</active>
     </programmer>
-
-
-
 <project>
     <id>1</id>
     <name>Angular App</name>
