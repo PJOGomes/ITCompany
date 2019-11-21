@@ -18,7 +18,6 @@ public class ProjectTeam {
     }
 
     //    Personalized Constructor
-
     public ProjectTeam(int id, String name, ArrayList<String> members, ArrayList<String> functions, Date beginDate, Date endDate) {
         this.id = id;
         this.name = name;
@@ -131,17 +130,15 @@ public class ProjectTeam {
                     function = scanner.nextLine();
                     functions.add(function);
                 }
-
             }
         }
-
-        Date startDate = new Date();
-
+        Date today = new Date();
+        System.out.println("The start date of the project will be today");
         System.out.println("When will the project end: (dd/MM/yyyy format)");
         String end = scanner.nextLine();
         Date endDate = dateFormat.parse(end);
 
-        ProjectTeam proj = new ProjectTeam(lastId+1, name, members, functions,startDate,endDate);
+        ProjectTeam proj = new ProjectTeam(lastId+1, name, members, functions,today,endDate);
         CRUDDatabase write = new CRUDDatabase();
         write.createFile(programmers, teams, proj);
         teams.add(proj);

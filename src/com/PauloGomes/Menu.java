@@ -109,7 +109,6 @@ public class Menu {
                 case "0":
                     System.out.println("Thank you for using our Program");
                     CRUDDatabase.saveExit();
-                    exit = true;
                     System.exit(0);
                 default:
                     System.out.println("You must enter a valid option");
