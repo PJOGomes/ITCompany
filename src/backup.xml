@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<company>
+    <programmer>
+        <id>1</id>
+        <firstName>Paulo</firstName>
+        <lastName>Gomes</lastName>
+        <startDatePresentProject>21/11/2019</startDatePresentProject>
+        <daysWorked>0</daysWorked>
+        <wage>25.5</wage>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
+    </programmer>
+    <programmer>
+        <id>2</id>
+        <firstName>Jorge</firstName>
+        <lastName>Oliveira</lastName>
+        <startDatePresentProject>21/11/2019</startDatePresentProject>
+        <daysWorked>0</daysWorked>
+        <wage>20.11</wage>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
+    </programmer>
+    <programmer>
+        <id>3</id>
+        <firstName>Estrela</firstName>
+        <lastName>Dias</lastName>
+        <startDatePresentProject>00/00/0000</startDatePresentProject>
+        <daysWorked>34</daysWorked>
+        <wage>30.0</wage>
+        <paymentMethod>100</paymentMethod>
+        <active>false</active>
+    </programmer>
+    <project>
+        <id>1</id>
+        <name>Angular App</name>
+        <member>2</member>
+        <member>1</member>
+        <function>Batatinhas</function>
+        <function>Relax</function>
+        <beginDate>11/11/2019</beginDate>
+        <endDate>29/11/2019</endDate>
+    </project>
+</company>
