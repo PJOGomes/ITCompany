@@ -120,21 +120,23 @@ public class Manager {
                     dif = 30-localDate.getDayOfMonth()+1;
                     daysMissing += dif*proj.getMembers().size();
                 }
+            }
+
         }
-            System.out.println("This month "+active+" programmers have worked "+totalDays+" days, and "+daysMissing+ " days left worked");
-            System.out.println("Project team details");
-            for(ProjectTeam pt: teams){
-                System.out.println("Project Team : "+ pt.getId() + " - "+pt.getName());
-                for (int i = 0; i <pt.getMembers().size() ; i++) {
-                    for(ActiveProgrammer prog: programmers){
-                        if(prog.getId()==Integer.parseInt(pt.getMembers().get(i))){
-                            System.out.println(prog.getLastName().toUpperCase()+", "+prog.getFirstName()+", in charge of "+pt.getFunctions().get(i)+" from "+dateFormat.format(prog.getStartDatePresentProject())
-                            +" to "+dateFormat.format(pt.getEndDate())+", has worked "+prog.getDaysWorkedMonth()+" days this month (total salary "+prog.calculateSalary(prog));
-                        }
-                    }
+        System.out.println("This month "+active+" programmers have worked "+totalDays+" days, and "+daysMissing+ " days left worked");
+        System.out.println("Project team details");
+        for(ProjectTeam pt: teams){
+            System.out.println("entered");
+            System.out.println("Project Team : "+ pt.getId() + " - "+pt.getName());
+            for (int i = 0; i <pt.getMembers().size() ; i++) {
+                for(ActiveProgrammer prog: programmers){
+                    if(prog.getId()==Integer.parseInt(pt.getMembers().get(i))){
+                        System.out.println(prog.getLastName().toUpperCase()+", "+prog.getFirstName()+", in charge of "+pt.getFunctions().get(i)+" from "+dateFormat.format(prog.getStartDatePresentProject())
+                                +" to "+dateFormat.format(pt.getEndDate())+", has worked "+prog.getDaysWorkedMonth()+" days this month (total salary "+prog.calculateSalary(prog)+"€)");
                     }
                 }
             }
+        }
     }
 
     public static void updateDate (ArrayList<ActiveProgrammer> programmmers, ArrayList<ProjectTeam> projects) throws ParseException {
@@ -143,6 +145,7 @@ public class Manager {
             LocalDate localDate = Menu.getSysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int startMonth=localDate.getMonthValue();
             menu.setSysDate(new Date(Menu.getSysDate().getTime()+ TimeUnit.DAYS.toMillis( 1 )));
+            System.out.println("Date changed to: "+dateFormat.format(Menu.getSysDate()));
             LocalDate localDateFinal = Menu.getSysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int endMonth = localDateFinal.getMonthValue();
             //If startMonth and endMonth are the same, we update the number of days worked in that month by the active programmers
@@ -161,29 +164,40 @@ public class Manager {
                 }
             }
             //Check if any projects ended
-            for(ProjectTeam proj: projects){
-                if(proj.getEndDate().before(Menu.getSysDate())){
-                    for (int i = 0; i <proj.getMembers().size() ; i++) {
-                        int id=Integer.parseInt(proj.getMembers().get(i));
-                        for(ActiveProgrammer prog: programmmers)
-                        {
-                            if(prog.getId()==id){
-                                prog.setActive(false);
-                                prog.setStartDatePresentProject(dateFormat.parse("00/00/0000") );
-                                CRUDDatabase.updateFile(programmmers, projects, Integer.toString(prog.getId()),"ActiveProgrammer");
-                            }
+       if(projects.size()==0) {
+           System.out.println("No project on course in this date");
+            return;
+       }
+//            System.out.println(projects.size());
+        for(int j=0; j<projects.size();j++){
+            if(projects.get(j).getEndDate().before(new Date(Menu.getSysDate().getTime()+ TimeUnit.DAYS.toMillis( 1 )))){
+                for (int i = 0; i <projects.get(j).getMembers().size() ; i++) {
+                    int id=Integer.parseInt(projects.get(j).getMembers().get(i));
+                    for(ActiveProgrammer prog: programmmers)
+                    {
+                        if(prog.getId()==id){
+                            prog.setActive(false);
+                            prog.setStartDatePresentProject(dateFormat.parse("00/00/0000") );
+                            CRUDDatabase.updateFile(programmmers, projects, Integer.toString(prog.getId()),"ActiveProgrammer");
                         }
                     }
-                    CRUDDatabase.saveHistory(proj);
-                    CRUDDatabase.deleteFile(programmmers, projects, proj.getId(), "projects");
                 }
-            }
+                CRUDDatabase.saveHistory(projects.get(j));
+                CRUDDatabase.deleteFile(programmmers, projects, projects.get(j).getId(), "projects");
+                projects.remove(projects.indexOf(projects.get(j)));
 
+
+            }
+        }
 
     }
 
     public static void printHistory(ArrayList<ProjectTeam>historyList){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if(historyList.size()==0){
+            System.out.println("There are no projects in history");
+            return;
+        }
         for (ProjectTeam item: historyList) {
             System.out.println("-------Project "+item.getId()+"---------");
             System.out.println("Project name: "+item.getName());

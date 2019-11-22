@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import com.sun.org.apache.xpath.internal.res.XPATHErrorResources_sv;
@@ -470,6 +471,35 @@ public class CRUDDatabase {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static Date readDate() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try{
+            getDoc();
+            NodeList nodeList = getDoc().getElementsByTagName("date");
+            Element single = (Element) nodeList.item(0);
+            return dateFormat.parse(single.getElementsByTagName("last").item(0).getTextContent());
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return dateFormat.parse("00/00/000");
+    }
+
+    public static void saveDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try{
+            String date = dateFormat.format(Menu.getSysDate());
+            getDoc();
+            NodeList nodeList = getDoc().getElementsByTagName("date");
+            Element single = (Element) nodeList.item(0);
+            single.getElementsByTagName("last").item(0).setTextContent(date);
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
 }

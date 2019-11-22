@@ -480,10 +480,10 @@ public class ProjectTeam {
                         }
                     }
                 }
+                CRUDDatabase.saveHistory(proj);
+                teams.remove(teams.indexOf(proj));
             }
-            CRUDDatabase.saveHistory(proj);
         }
-
         CRUDDatabase.deleteFile(programmers, teams, id, "projects");
     }
 

@@ -187,9 +187,10 @@ public class ActiveProgrammer implements Programmer{
                     p.setWage(value);
                     break;
                 case "4":
-                    System.out.println("Change payment method from "+p.getPaymentMethod()+"% to:");
+                    System.out.println("Change payment method from "+p.getPaymentMethod()+"% to: (50% or 100%");
                     if(scanner.hasNextInt()) {
                         int pay = scanner.nextInt();
+                        scanner.nextLine();
                         if(pay==50||pay==100)
                         {
                             p.setPaymentMethod(pay);
@@ -228,7 +229,16 @@ public class ActiveProgrammer implements Programmer{
             System.out.println("Please choose a valid option: ");
             deleteProgrammer(programmer, teams);
         }
-        //TODO: Check if user is active and edit project if active
+
+        for(ActiveProgrammer p: programmer){
+            if(p.getId()==id){
+                if(p.isActive())
+                {
+                    System.out.println("You cannot delete a programmer that is currently working in a project.\nPlease remove the programmer from the project and then delete him");
+                    return;
+                }
+            }
+        }
         CRUDDatabase.deleteFile(programmer, teams, id, "programmers");
         int indexRemove=-1;
         for(ActiveProgrammer prog: programmer) {
@@ -238,7 +248,6 @@ public class ActiveProgrammer implements Programmer{
         }
         programmer.remove(indexRemove);
         System.out.println("Programmer deleted with success");
-
     }
 
     @Override

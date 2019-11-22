@@ -9,18 +9,7 @@ public class Main {
         ArrayList<ActiveProgrammer> programmers = new ArrayList<>();
         ArrayList<ProjectTeam> projects = new ArrayList<>();
         Menu menu = new Menu();
-
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-        if (choice == "a")
-        {
-            menu.loadMenu(programmers, projects);
-        }
-        else
-        {
-            menu.mainMenu(programmers, projects);
-        }
-
+        menu.loadMenu(programmers, projects);
     }
 
 

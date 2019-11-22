@@ -77,6 +77,8 @@ public class Menu {
         String today = dateFormat.format(getSysDate());
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
+        Menu menu = new Menu();
+        menu.setSysDate(CRUDDatabase.readDate());
         boolean exit = false;
         while(!exit) {
             System.out.println("\n\n*************************************************");
@@ -118,6 +120,7 @@ public class Menu {
                    companyMenu(programmers, teams);
                 case "0":
                     System.out.println("Thank you for using our Program");
+                    CRUDDatabase.saveDate();
                     CRUDDatabase.saveExit();
                     System.exit(0);
                 default:
@@ -255,7 +258,7 @@ public class Menu {
     }
 
 
-    private static void subMenu(){
+    private static void subMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
         while(true){
@@ -269,6 +272,8 @@ public class Menu {
                     return;
                 case "0":
                     System.out.println("Thank you for using our Program");
+                    CRUDDatabase.saveDate();
+                    CRUDDatabase.saveExit();
                     System.exit(0);
                 default:
                     System.out.println("You must enter a valid option");

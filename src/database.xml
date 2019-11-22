@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <company>
+    <date>
+        <last>22/11/2019</last>
+    </date>
     <programmer>
         <id>1</id>
         <firstName>Paulo</firstName>
@@ -25,19 +28,49 @@
         <firstName>Estrela</firstName>
         <lastName>Dias</lastName>
         <startDatePresentProject>00/00/0000</startDatePresentProject>
-        <daysWorked>34</daysWorked>
+        <daysWorked>12</daysWorked>
         <wage>30.0</wage>
         <paymentMethod>100</paymentMethod>
         <active>false</active>
+    </programmer>
+    <programmer>
+        <id>4</id>
+        <firstName>Peter</firstName>
+        <lastName>Run</lastName>
+        <startDatePresentProject>22/11/2019</startDatePresentProject>
+        <daysWorked>10</daysWorked>
+        <wage>21.0</wage>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
+    </programmer>
+    <programmer>
+        <id>5</id>
+        <firstName>Estrela</firstName>
+        <lastName>Dias</lastName>
+        <startDatePresentProject>22/11/2019</startDatePresentProject>
+        <daysWorked>8</daysWorked>
+        <wage>25.0</wage>
+        <paymentMethod>100</paymentMethod>
+        <active>true</active>
     </programmer>
     <project>
         <id>1</id>
         <name>Angular App</name>
         <member>2</member>
         <member>1</member>
-        <function>Batatinhas</function>
-        <function>Relax</function>
+        <function>Design</function>
+        <function>Backend</function>
         <beginDate>11/11/2019</beginDate>
         <endDate>29/11/2019</endDate>
+    </project>
+    <project>
+        <id>2</id>
+        <name>Edit Site</name>
+        <member>4</member>
+        <member>5</member>
+        <function>FrontEnd</function>
+        <function>Backend</function>
+        <beginDate>22/11/2019</beginDate>
+        <endDate>29/12/2019</endDate>
     </project>
 </company>
