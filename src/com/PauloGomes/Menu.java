@@ -9,6 +9,17 @@ import java.util.Scanner;
 
 public class Menu {
 
+    private static Date sysDate= new Date();
+
+
+    public static Date getSysDate() {
+        return sysDate;
+    }
+
+    public void setSysDate(Date sysDate) {
+        this.sysDate = sysDate;
+    }
+
     public static void loadMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws java.lang.Exception{
         Scanner scanner = new Scanner(System.in);
         String insertedPassword;
@@ -63,8 +74,7 @@ public class Menu {
         ProjectTeam project = new ProjectTeam();
         Manager manager = new Manager();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        String today = dateFormat.format(date);
+        String today = dateFormat.format(getSysDate());
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
         boolean exit = false;

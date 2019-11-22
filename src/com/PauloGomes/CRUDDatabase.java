@@ -222,7 +222,6 @@ public class CRUDDatabase {
                     for (int j=0; j<countMembers ;j++){
                         String aux = single.getElementsByTagName("member").item(j).getTextContent();
                         tempMembers.add(aux);
-                        System.out.println(tempMembers.get(j));
                     }
                     //Pass every function to an arraylist of functions
                     ArrayList<String> tempFunctions = new ArrayList<>();
@@ -314,7 +313,6 @@ public class CRUDDatabase {
                     Node eachNode = listproj.item(i);
                     Element single = (Element) eachNode;
                     if(single.getElementsByTagName("id").item(0).getTextContent().equals(Integer.toString(id))){
-                        System.out.println("Removing "+eachNode.getNodeName()+eachNode.getChildNodes().item(0));
                         root.removeChild(eachNode);
                     }
                 }

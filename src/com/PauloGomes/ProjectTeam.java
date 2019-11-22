@@ -109,7 +109,13 @@ public class ProjectTeam {
             String option = scanner.nextLine();
             if(option.equals("Y")||option.equals("y")) {
                 members.add(addId);
-                //TODO: Change programmer isActive
+                //TODO: Change programmer StartDate
+                for(ActiveProgrammer prog: programmers){
+                    if(prog.getId()==Integer.parseInt(addId)){
+                        prog.setActive(true);
+//                        prog.setStartDatePresentProject();
+                    }
+                }
                 //TODO: Change Database Info
                 addAnother = true;
 
@@ -272,7 +278,14 @@ public class ProjectTeam {
                         if(scanner.hasNextInt()){
                             choosenId=scanner.nextInt();
                             scanner.nextLine();
-                            //TODO: Validate Id entered
+                            //Validate if choosen ID is available
+                            for(ActiveProgrammer prog: programmers){
+                                if(prog.getId()==choosenId&&prog.isActive()==false)
+                                {
+                                    System.out.println("The choosen programmer is not available.");
+                                    break;
+                                }
+                            }
                         } else {
                             System.out.println("Enter a valid Id");
                             break;
@@ -297,7 +310,11 @@ public class ProjectTeam {
                         if(scanner.hasNextInt()){
                             choosen=scanner.nextInt();
                             scanner.nextLine();
-                            //TODO: Validate Id
+                            //Validate if the Programmer to remove is in the Project's team
+                            if(!t.getMembers().contains(Integer.toString(choosen))){
+                                System.out.println("The choosen programmer is not in the project");
+                                break;
+                            }
                         } else {
                             System.out.println("Enter a valid Id");
                             break;
