@@ -8,6 +8,6 @@ public interface Programmer {
     void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) throws ParseException;
     void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
     void deleteProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
-    void calculateSalary(ActiveProgrammer person);
+    double calculateSalary(ActiveProgrammer person);
     void adjustDaysWorked(ActiveProgrammer person, Date date);
 }

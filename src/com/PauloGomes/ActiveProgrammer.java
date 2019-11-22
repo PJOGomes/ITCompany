@@ -243,8 +243,8 @@ public class ActiveProgrammer implements Programmer{
     }
 
     @Override
-    public void calculateSalary(ActiveProgrammer person) {
-
+    public double calculateSalary(ActiveProgrammer person) {
+        return person.getDaysWorkedMonth()*person.getWage()*person.getPaymentMethod()/100;
     }
 
     @Override

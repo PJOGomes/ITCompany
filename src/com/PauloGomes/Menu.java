@@ -229,7 +229,7 @@ public class Menu {
                     subMenu();
                     break;
                 case "2":
-                    Manager.updateDate(programmers, teams, date);
+                    Manager.updateDate(programmers, teams);
                     subMenu();
                     break;
                 case "3":

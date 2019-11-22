@@ -95,6 +95,17 @@ public class ProjectTeam {
 
         System.out.println("Enter the project name: ");
         String name = scanner.nextLine();
+        int countInactive =0;
+        for (ActiveProgrammer prog: programmers)
+        {
+            if(!prog.isActive())
+                countInactive++;
+        }
+        if(countInactive<2)
+        {
+            System.out.println("There aren't enough programmers available to start a new project");
+            return;
+        }
         System.out.println("Choose the programmers available for the project (Insert Id of minimum 2 programmers):");
         for (ActiveProgrammer prog: programmers)
         {
@@ -104,6 +115,13 @@ public class ProjectTeam {
         }
         while (addAnother) {
             addId = scanner.nextLine();
+            for(ActiveProgrammer prog: programmers){
+                if(prog.getId()==Integer.parseInt(addId)&&prog.isActive()==true)
+                {
+                    System.out.println("The choosen programmer is not available");
+                    break;
+                }
+            }
             System.out.println("Do you want to add another programmer to the project? (Y-yes, Other key -no)");
             String option = scanner.nextLine();
             if(option.equals("Y")||option.equals("y")) {
@@ -136,6 +154,13 @@ public class ProjectTeam {
                                 addAnother=true;
                                 break;
                             case "2":
+                                for(ActiveProgrammer prog: programmers){
+                                    if(prog.getId()==Integer.parseInt(addId)){
+                                        prog.setActive(false);
+                                        prog.setStartDatePresentProject(dateFormat.parse("00/00/0000"));
+                                    }
+                                    CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()), "ActiveProgrammer");
+                                }
                                 return;
                             default:
                                 System.out.println("Please enter a valid option");
@@ -156,13 +181,12 @@ public class ProjectTeam {
                 }
             }
         }
-        Date today = new Date();
-        System.out.println("The start date of the project will be today");
+        System.out.println("The start date of the project will be today (System Date)");
         System.out.println("When will the project end: (dd/MM/yyyy format)");
         String end = scanner.nextLine();
         Date endDate = dateFormat.parse(end);
 
-        ProjectTeam proj = new ProjectTeam(lastId+1, name, members, functions,today,endDate);
+        ProjectTeam proj = new ProjectTeam(lastId+1, name, members, functions,Menu.getSysDate(),endDate);
         CRUDDatabase write = new CRUDDatabase();
         write.createFile(programmers, teams, proj);
         teams.add(proj);
@@ -290,6 +314,18 @@ public class ProjectTeam {
             option = scanner.nextLine();
             switch(option){
                 case "1":
+                    int count=0;
+                    for(ActiveProgrammer prog: programmers)
+                    {
+
+                        if(!prog.isActive()){
+                            count++;
+                        }
+                    }
+                    if(count==0) {
+                        System.out.println("There are no available programmers to add");
+                        return;
+                    }
                     System.out.println("Choose the Id of the programmer you want to add:");
                         Manager.printInactive(programmers);
                         int choosenId = 0;
@@ -315,8 +351,7 @@ public class ProjectTeam {
                         for(ActiveProgrammer prog: programmers){
                             if(prog.getId()==choosenId){
                                 prog.setActive(true);
-                                Date date = new Date();
-                                prog.setStartDatePresentProject(date);
+                                prog.setStartDatePresentProject(Menu.getSysDate());
                                 CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()),"ActiveProgrammer");
                             }
                         }
@@ -375,6 +410,18 @@ public class ProjectTeam {
                         }
                     break;
                 case "3":
+                    int count2=0;
+                    for(ActiveProgrammer prog: programmers)
+                    {
+
+                        if(!prog.isActive()){
+                            count2++;
+                        }
+                    }
+                    if(count2==0) {
+                        System.out.println("There are no available programmers to exchange");
+                        return;
+                    }
                     System.out.println("Choose the Id of the programmer you want to add:");
                     Manager.printInactive(programmers);
                     String chooseEntering = scanner.nextLine();
@@ -388,9 +435,8 @@ public class ProjectTeam {
                     System.out.println("Entrada "+indexEntrance +" Saida "+indexExit);
                     for(ActiveProgrammer p2: programmers) {
                         if(p2.getId()==indexEntrance){
-                            Date date=new Date();
                             p2.setActive(true);
-                            p2.setStartDatePresentProject(date);
+                            p2.setStartDatePresentProject(Menu.getSysDate());
                             CRUDDatabase.updateFile(programmers, teams, Integer.toString(p2.getId()),"ActiveProgrammer");
                         } else if(p2.getId()==indexExit) {
                             p2.setActive(false);
@@ -408,23 +454,36 @@ public class ProjectTeam {
         }
     }
 
-    public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
+    public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Choose a project Id to delete the project: ");
         Manager.printProject(programmers, teams);
         Scanner scanner = new Scanner(System.in);
-        int id =0;
-        if(scanner.hasNextInt()){
+        int id = 0;
+        if (scanner.hasNextInt()) {
             id = scanner.nextInt();
             scanner.nextLine();
         } else {
             System.out.println("Please choose a valid option: ");
             deleteProject(programmers, teams);
         }
+        //TODO: Set Programmers to Inactive and set date
+        for (ProjectTeam proj : teams) {
+            if (proj.getId() == id) {
+                for (int i = 0; i < proj.getMembers().size(); i++) {
+                    int idChoice = Integer.parseInt(proj.getMembers().get(i));
+                    for (ActiveProgrammer prog : programmers) {
+                        if (prog.getId() == idChoice) {
+                            prog.setActive(false);
+                            prog.setStartDatePresentProject(dateFormat.parse("00/00/0000"));
+                            CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()), "ActiveProgrammer");
+                        }
+                    }
+                }
+            }
+        }
         CRUDDatabase.deleteFile(programmers, teams, id, "projects");
-
-
     }
-
 
     public static boolean checkProjectDates(Date dateStart, Date dateEnd){
         if(dateStart.after(dateEnd)){
