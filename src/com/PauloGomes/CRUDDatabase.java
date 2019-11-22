@@ -491,10 +491,11 @@ public class CRUDDatabase {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try{
             String date = dateFormat.format(Menu.getSysDate());
-            getDoc();
-            NodeList nodeList = getDoc().getElementsByTagName("date");
+            Document doc= getDoc();
+            NodeList nodeList = doc.getElementsByTagName("date");
             Element single = (Element) nodeList.item(0);
             single.getElementsByTagName("last").item(0).setTextContent(date);
+           appendDocument(doc);
 
         }catch (Exception e) {
             System.out.println(e.getMessage());

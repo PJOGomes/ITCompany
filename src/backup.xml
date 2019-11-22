@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <company>
     <date>
-        <last>22/11/2019</last>
+        <last>23/11/2019</last>
     </date>
     <programmer>
         <id>1</id>
@@ -17,17 +17,17 @@
         <id>2</id>
         <firstName>Jorge</firstName>
         <lastName>Oliveira</lastName>
-        <startDatePresentProject>21/11/2019</startDatePresentProject>
+        <startDatePresentProject>30/11/0002</startDatePresentProject>
         <daysWorked>0</daysWorked>
         <wage>20.11</wage>
         <paymentMethod>100</paymentMethod>
-        <active>true</active>
+        <active>false</active>
     </programmer>
     <programmer>
         <id>3</id>
         <firstName>Estrela</firstName>
         <lastName>Dias</lastName>
-        <startDatePresentProject>00/00/0000</startDatePresentProject>
+        <startDatePresentProject>30/11/0002</startDatePresentProject>
         <daysWorked>12</daysWorked>
         <wage>30.0</wage>
         <paymentMethod>100</paymentMethod>
@@ -45,8 +45,8 @@
     </programmer>
     <programmer>
         <id>5</id>
-        <firstName>Estrela</firstName>
-        <lastName>Dias</lastName>
+        <firstName>Michael</firstName>
+        <lastName>Car</lastName>
         <startDatePresentProject>22/11/2019</startDatePresentProject>
         <daysWorked>8</daysWorked>
         <wage>25.0</wage>

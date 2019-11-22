@@ -74,11 +74,11 @@ public class Menu {
         ProjectTeam project = new ProjectTeam();
         Manager manager = new Manager();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String today = dateFormat.format(getSysDate());
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
         Menu menu = new Menu();
         menu.setSysDate(CRUDDatabase.readDate());
+        String today = dateFormat.format(getSysDate());
         boolean exit = false;
         while(!exit) {
             System.out.println("\n\n*************************************************");
