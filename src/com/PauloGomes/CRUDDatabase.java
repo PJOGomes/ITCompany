@@ -352,4 +352,73 @@ public class CRUDDatabase {
         os.close();
     }
 
+    public static void saveHistory(ProjectTeam proj){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+
+            File xmlDoc = new File(".\\src\\ProjectHistory.xml");
+//            If file doesn't exist create an empty file
+            if(!xmlDoc.exists()){
+                xmlDoc.createNewFile();
+            }
+
+            //If the file exists read it's content and pass it to objects
+            DocumentBuilderFactory dbfact = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dbuild = dbfact.newDocumentBuilder();
+            Document doc = dbuild.parse(xmlDoc);
+
+            Element root = doc.getDocumentElement();
+
+            //Create XML fields
+            Element project = doc.createElement("project");
+
+            Element id = doc.createElement("id");
+            id.appendChild(doc.createTextNode(Integer.toString(proj.getId())));
+            project.appendChild(id);
+
+            Element name = doc.createElement("name");
+            name.appendChild(doc.createTextNode(proj.getName()));
+            project.appendChild(name);
+
+            for (int i = 0; i <proj.getMembers().size() ; i++) {
+                Element member = doc.createElement("member");
+                member.appendChild(doc.createTextNode(proj.getMembers().get(i)));
+                project.appendChild(member);
+            }
+
+            for (int i = 0; i <proj.getFunctions().size() ; i++) {
+                Element function = doc.createElement("function");
+                function.appendChild(doc.createTextNode(proj.getFunctions().get(i)));
+                project.appendChild(function);
+            }
+
+            Element beginDate = doc.createElement("beginDate");
+            beginDate.appendChild(doc.createTextNode(dateFormat.format(proj.getBeginDate())));
+            project.appendChild(beginDate);
+
+            Element endDate = doc.createElement("endDate");
+            endDate.appendChild(doc.createTextNode(dateFormat.format(proj.getEndDate())));
+            project.appendChild(endDate);
+
+            //Append created node to root
+
+            root.appendChild(project);
+
+            DOMSource source = new DOMSource(doc);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            StreamResult result = new StreamResult(".\\src\\ProjectHistory.xml");
+            transformer.transform(source, result);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 }

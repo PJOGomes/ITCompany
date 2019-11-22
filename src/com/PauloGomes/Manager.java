@@ -174,6 +174,7 @@ public class Manager {
                             }
                         }
                     }
+                    CRUDDatabase.saveHistory(proj);
                     CRUDDatabase.deleteFile(programmmers, projects, proj.getId(), "projects");
                 }
             }

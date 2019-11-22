@@ -467,7 +467,7 @@ public class ProjectTeam {
             System.out.println("Please choose a valid option: ");
             deleteProject(programmers, teams);
         }
-        //TODO: Set Programmers to Inactive and set date
+
         for (ProjectTeam proj : teams) {
             if (proj.getId() == id) {
                 for (int i = 0; i < proj.getMembers().size(); i++) {
@@ -481,7 +481,9 @@ public class ProjectTeam {
                     }
                 }
             }
+            CRUDDatabase.saveHistory(proj);
         }
+
         CRUDDatabase.deleteFile(programmers, teams, id, "projects");
     }
 
