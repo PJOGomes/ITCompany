@@ -77,7 +77,6 @@ public class Menu {
         String today = dateFormat.format(getSysDate());
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
-        person.adjustDaysWorked(programmers, teams);
         boolean exit = false;
         while(!exit) {
             System.out.println("\n\n*************************************************");
@@ -222,6 +221,7 @@ public class Menu {
             System.out.println("1 - Company Report");
             System.out.println("2 - Update System's Date");
             System.out.println("3 - Reload database");
+            System.out.println("4 - View past projects");
             System.out.println("0 - Return to main menu");
             option = scanner.nextLine();
             switch (option){
@@ -239,6 +239,10 @@ public class Menu {
                     CRUDDatabase.readFile(programmers, teams);
                     subMenu();
                     break;
+                case "4":
+                    ArrayList<ProjectTeam> historyList = new ArrayList<>();
+                    CRUDDatabase.readHistory(historyList);
+                    Manager.printHistory(historyList);
                 case "0":
                     mainMenu(programmers, teams);
                     exit = true;

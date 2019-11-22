@@ -181,4 +181,18 @@ public class Manager {
 
 
     }
+
+    public static void printHistory(ArrayList<ProjectTeam>historyList){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (ProjectTeam item: historyList) {
+            System.out.println("-------Project "+item.getId()+"---------");
+            System.out.println("Project name: "+item.getName());
+            System.out.println("Team Members: ");
+            for (int i = 0; i <item.getMembers().size() ; i++) {
+                System.out.println("Programmer Id: "+item.getMembers().get(i)+" with function "+item.getFunctions().get(i));
+            }
+            System.out.println("Project started: "+dateFormat.format(item.getBeginDate()) );
+            System.out.println("Project ended: "+dateFormat.format(item.getEndDate()) );
+        }
+    }
 }
