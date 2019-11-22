@@ -111,6 +111,7 @@ public class ActiveProgrammer implements Programmer{
         int size = programmer.size();
         int last = programmer.get(size-1).getId();
 
+        //Get the programmer's info from the user
         System.out.println("Programmer's first name: ");
         String firstName = scanner.nextLine();
         System.out.println("Programmer's last name: ");
@@ -127,8 +128,11 @@ public class ActiveProgrammer implements Programmer{
                 return;
             }
         }
+        //Create the user
         ActiveProgrammer prog = new ActiveProgrammer(last+1, firstName, lastName, date, 0, value, paymentMethod, false);
+        //Add user to arraylist
         programmer.add(prog);
+        //Add user to XML file
         db.createFile(programmer, teams, prog);
     }
 
@@ -163,6 +167,7 @@ public class ActiveProgrammer implements Programmer{
         }
         System.out.println("Editing programmer "+p.getId());
         Boolean exit = false;
+        //Choose options to edit
         while(!exit){
             System.out.println("1 - Edit first name:");
             System.out.println("2 - Edit last name:");
@@ -212,6 +217,7 @@ public class ActiveProgrammer implements Programmer{
                     break;
             }
         }
+        //Update user in the database
         CRUDDatabase update = new CRUDDatabase();
         update.updateFile(programmer, teams, Integer.toString(choosenId), "ActiveProgrammer");
     }

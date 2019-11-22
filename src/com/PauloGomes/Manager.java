@@ -126,13 +126,13 @@ public class Manager {
         System.out.println("This month "+active+" programmers have worked "+totalDays+" days, and "+daysMissing+ " days left worked");
         System.out.println("Project team details");
         for(ProjectTeam pt: teams){
-            System.out.println("entered");
             System.out.println("Project Team : "+ pt.getId() + " - "+pt.getName());
             for (int i = 0; i <pt.getMembers().size() ; i++) {
                 for(ActiveProgrammer prog: programmers){
                     if(prog.getId()==Integer.parseInt(pt.getMembers().get(i))){
                         System.out.println(prog.getLastName().toUpperCase()+", "+prog.getFirstName()+", in charge of "+pt.getFunctions().get(i)+" from "+dateFormat.format(prog.getStartDatePresentProject())
                                 +" to "+dateFormat.format(pt.getEndDate())+", has worked "+prog.getDaysWorkedMonth()+" days this month (total salary "+prog.calculateSalary(prog)+"€)");
+                        break;
                     }
                 }
             }
