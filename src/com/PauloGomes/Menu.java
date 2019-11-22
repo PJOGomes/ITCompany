@@ -77,6 +77,7 @@ public class Menu {
         String today = dateFormat.format(getSysDate());
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
+        person.adjustDaysWorked(programmers, teams);
         boolean exit = false;
         while(!exit) {
             System.out.println("\n\n*************************************************");

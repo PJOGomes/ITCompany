@@ -9,5 +9,4 @@ public interface Programmer {
     void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
     void deleteProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams);
     double calculateSalary(ActiveProgrammer person);
-    void adjustDaysWorked(ActiveProgrammer person, Date date);
 }

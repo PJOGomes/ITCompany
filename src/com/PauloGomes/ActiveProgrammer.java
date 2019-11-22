@@ -101,7 +101,6 @@ public class ActiveProgrammer implements Programmer{
 
     //  Methods
 
-
     @Override
     public void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) throws ParseException {
         Scanner scanner = new Scanner(System.in);
@@ -245,11 +244,6 @@ public class ActiveProgrammer implements Programmer{
     @Override
     public double calculateSalary(ActiveProgrammer person) {
         return person.getDaysWorkedMonth()*person.getWage()*person.getPaymentMethod()/100;
-    }
-
-    @Override
-    public void adjustDaysWorked(ActiveProgrammer person, Date date) {
-
     }
 
 }

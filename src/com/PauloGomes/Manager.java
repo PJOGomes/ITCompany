@@ -82,28 +82,59 @@ public class Manager {
 
     public static void report (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
+        Menu menu = new Menu();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         System.out.println("IT COMPANY - Report");
         System.out.println("IT Company is actually composed of "+teams.size()+" project teams, and "+programmers.size()+" programmers");
         int totalDays=0;
+        int active=0;
         for(ActiveProgrammer prog: programmers){
             totalDays +=prog.getDaysWorkedMonth();
+            if(prog.isActive()||(!prog.isActive()&&prog.getDaysWorkedMonth()!=0)) {
+                active++;
+            }
         }
         int daysMissing = 0;
+        int dif=0;
         for(ProjectTeam proj: teams) {
-
+            LocalDate localDate = Menu.getSysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int startMonth=localDate.getMonthValue();
+            LocalDate localDateFinal = proj.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int endMonth = localDateFinal.getMonthValue();
+            if(startMonth==endMonth){
+                dif = localDateFinal.getDayOfMonth()-localDate.getDayOfMonth()+1;
+                daysMissing += dif*proj.getMembers().size();
+            } else {
+                if(startMonth==1||startMonth==3||startMonth==5||startMonth==7||startMonth==8||startMonth==10||startMonth==12)
+                {
+                    dif = 31-localDate.getDayOfMonth()+1;
+                    daysMissing += dif*proj.getMembers().size();
+                } else if(startMonth==2&&localDate.isLeapYear()){
+                    dif = 28-localDate.getDayOfMonth()+1;
+                    daysMissing += dif*proj.getMembers().size();
+                }else if(startMonth==2&&!localDate.isLeapYear()){
+                    dif = 27-localDate.getDayOfMonth()+1;
+                    daysMissing += dif*proj.getMembers().size();
+            } else {
+                    dif = 30-localDate.getDayOfMonth()+1;
+                    daysMissing += dif*proj.getMembers().size();
+                }
         }
-
-//        IT COMPANY  - Report
-//        IT Company is actually composed of n1 project teams, and n2 programmers.
-//        This month, n3 programmers have been worked n4 days, and n5 days left worked.
-//        Project teams details:
-//        Project team  : n6
-//        Lastname, Firstname, in  charge of n7 from n8 to n9 (duration n10), has worked n11 days this month (total salary $n12)
-//        Lastname, Firstname, in  charge of n7 from n8 to n9 (duration n10), has worked n11 days this month (total salary $n12)
-//        Lastname, Firstname, in  charge of n7 from n8 to n9 (duration n10), has worked n11 days this month (total salary $n12)
-//        Lastname, Firstname, in  charge of n7 from n8 to n9 (duration n10), has worked n11 days this month (total salary $n12)
-//        Lastname, Firstname, in  charge of n7 from n8 to n9 (duration n10), has worked n11 days this month (total salary $n12)
-
+            System.out.println("This month "+active+" programmers have worked "+totalDays+" days, and "+daysMissing+ " days left worked");
+            System.out.println("Project team details");
+            for(ProjectTeam pt: teams){
+                System.out.println("Project Team : "+ pt.getId() + " - "+pt.getName());
+                for (int i = 0; i <pt.getMembers().size() ; i++) {
+                    for(ActiveProgrammer prog: programmers){
+                        if(prog.getId()==Integer.parseInt(pt.getMembers().get(i))){
+                            System.out.println(prog.getLastName().toUpperCase()+", "+prog.getFirstName()+", in charge of "+pt.getFunctions().get(i)+" from "+dateFormat.format(prog.getStartDatePresentProject())
+                            +" to "+dateFormat.format(pt.getEndDate())+", has worked "+prog.getDaysWorkedMonth()+" days this month (total salary "+prog.calculateSalary(prog));
+                        }
+                    }
+                    }
+                }
+            }
     }
 
     public static void updateDate (ArrayList<ActiveProgrammer> programmmers, ArrayList<ProjectTeam> projects) throws ParseException {
