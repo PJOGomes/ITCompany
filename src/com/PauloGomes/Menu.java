@@ -130,12 +130,6 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         String option;
         ActiveProgrammer person = new ActiveProgrammer();
-//        ProjectTeam project = new ProjectTeam();
-//        Manager manager = new Manager();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        Date date = new Date();
-//        String today = dateFormat.format(date);
-//        CRUDDatabase database = new CRUDDatabase();
         boolean exit=false;
         while(!exit){
             System.out.println("======== Programmer Menu ========");
@@ -177,13 +171,7 @@ public class Menu {
     private static void projectMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
-//        ActiveProgrammer person = new ActiveProgrammer();
         ProjectTeam project = new ProjectTeam();
-//        Manager manager = new Manager();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        Date date = new Date();
-//        String today = dateFormat.format(date);
-//        CRUDDatabase database = new CRUDDatabase();
         boolean exit=false;
         while(!exit){
             System.out.println("========== Project Menu ==========");
@@ -224,13 +212,9 @@ public class Menu {
     private static void companyMenu(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String option;
-//        ActiveProgrammer person = new ActiveProgrammer();
-//        ProjectTeam project = new ProjectTeam();
-//        Manager manager = new Manager();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         String today = dateFormat.format(date);
-//        CRUDDatabase database = new CRUDDatabase();
         boolean exit=false;
         while(!exit){
             System.out.println("========== Company Menu ==========");

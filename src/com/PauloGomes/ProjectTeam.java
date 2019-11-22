@@ -84,7 +84,6 @@ public class ProjectTeam {
 
     public static void createProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
 
-        //TODO: implement validations
         int count = teams.size();
         int lastId = teams.get(count-1).getId();
         String addId;
@@ -109,21 +108,40 @@ public class ProjectTeam {
             String option = scanner.nextLine();
             if(option.equals("Y")||option.equals("y")) {
                 members.add(addId);
-                //TODO: Change programmer StartDate
                 for(ActiveProgrammer prog: programmers){
                     if(prog.getId()==Integer.parseInt(addId)){
                         prog.setActive(true);
-//                        prog.setStartDatePresentProject();
+                        prog.setStartDatePresentProject(Menu.getSysDate());
                     }
+                    CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()), "ActiveProgrammer");
                 }
-                //TODO: Change Database Info
                 addAnother = true;
 
             } else {
                 members.add(addId);
-                //TODO: Change programmer isActive
-                //TODO: Change Database Info
-                addAnother=false;
+                for(ActiveProgrammer prog: programmers){
+                    if(prog.getId()==Integer.parseInt(addId)){
+                        prog.setActive(true);
+                        prog.setStartDatePresentProject(Menu.getSysDate());
+                    }
+                    CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()), "ActiveProgrammer");
+                }
+                if(members.size()<2) {
+                    System.out.println("For a project to be valid, you must have at least two active programmers. \n1 - Add another programmer\n2 - Exit and delete current data");
+                    boolean exit = false;
+                    while (!exit) {
+                        String choice = scanner.nextLine();
+                        switch (choice) {
+                            case "1":
+                                addAnother=true;
+                                break;
+                            case "2":
+                                return;
+                            default:
+                                System.out.println("Please enter a valid option");
+                        }
+                    }
+                }
                 break;
             }
         }
@@ -318,6 +336,31 @@ public class ProjectTeam {
                         } else {
                             System.out.println("Enter a valid Id");
                             break;
+                        }
+                        if(t.getMembers().size()<2){
+                            System.out.println("You cannot have a project with only one programmer. If you continue the project will be removed. \nDo you want to continue? (Y - yes; other key: no)");
+                            boolean exitLoop = false;
+                            while(!exitLoop){
+                                String choice = scanner.nextLine();
+                                if(choice.equals("Y")||choice.equals("y")){
+                                    for (int i = 0; i <t.getMembers().size() ; i++) {
+                                        int id=Integer.parseInt(t.getMembers().get(i));
+                                        for(ActiveProgrammer prog: programmers)
+                                        {
+                                            if(prog.getId()==id){
+                                                prog.setActive(false);
+                                                prog.setStartDatePresentProject(dateFormat.parse("00/00/0000") );
+                                                CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()),"ActiveProgrammer");
+                                            }
+                                        }
+                                    }
+                                    System.out.println("Project "+t.getId()+" will be deleted");
+                                    CRUDDatabase.deleteFile(programmers,teams, t.getId(), "projects");
+                                    return;
+                                } else {
+                                    return;
+                                }
+                            }
                         }
                         int index = t.getMembers().indexOf(Integer.toString(choosen));
                         t.getMembers().remove(index);

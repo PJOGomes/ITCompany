@@ -116,13 +116,18 @@ public class ActiveProgrammer implements Programmer{
         String firstName = scanner.nextLine();
         System.out.println("Programmer's last name: ");
         String lastName = scanner.nextLine();
-        //TODO : implement Validations
+
         System.out.println("Programmer's wage: ");
         double value = scanner.nextDouble();
         System.out.println("Programmer's payment Method (50% or 100%): ");
-        int paymentMethod = scanner.nextInt();
-        scanner.nextLine();
-
+        if(scanner.hasNextInt()){
+            int paymentMethod = scanner.nextInt();
+            scanner.nextLine();
+            if(paymentMethod!=50&&paymentMethod!=100){
+                System.out.println("You didn't enter a valid payment otpion");
+                return;
+            }
+        }
         ActiveProgrammer prog = new ActiveProgrammer(last+1, firstName, lastName, date, 0, value, paymentMethod, false);
         programmer.add(prog);
         db.createFile(programmer, teams, prog);
@@ -146,12 +151,16 @@ public class ActiveProgrammer implements Programmer{
             System.out.println("Choose a valid option");
             editProgrammer(programmer, teams);
         }
-        //TODO: Validate choosen ID
         for(ActiveProgrammer prog: programmer){
             if(prog.getId()==choosenId)
             {
                 p = prog;
             }
+        }
+        if(p==null)
+        {
+            System.out.println("The choosen programmer is not in the company.");
+            return;
         }
         System.out.println("Editing programmer "+p.getId());
         Boolean exit = false;
@@ -175,15 +184,24 @@ public class ActiveProgrammer implements Programmer{
                     break;
                 case "3":
                     System.out.println("Change wage from "+p.getWage()+" to:");
-                    //TODO: Validate double
                     Double value = scanner.nextDouble();
                     p.setWage(value);
                     break;
                 case "4":
                     System.out.println("Change payment method from "+p.getPaymentMethod()+"% to:");
-                    //TODO: Validate int
-                    int pay = scanner.nextInt();
-                    p.setPaymentMethod(pay);
+                    if(scanner.hasNextInt()) {
+                        int pay = scanner.nextInt();
+                        if(pay==50||pay==100)
+                        {
+                            p.setPaymentMethod(pay);
+                        } else {
+                            System.out.println("You didn't insert a valid payment method");
+                            return;
+                        }
+                    } else {
+                        System.out.println("You didn't insert a valid payment method");
+                        return;
+                    }
                     break;
                 case "5":
                     System.out.println("Editing ended");
@@ -194,7 +212,6 @@ public class ActiveProgrammer implements Programmer{
                     break;
             }
         }
-
         CRUDDatabase update = new CRUDDatabase();
         update.updateFile(programmer, teams, Integer.toString(choosenId), "ActiveProgrammer");
     }
