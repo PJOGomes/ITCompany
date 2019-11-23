@@ -76,6 +76,10 @@ public class Menu {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         CRUDDatabase database = new CRUDDatabase();
         database.readFile(programmers, teams);
+        if(programmers.size()<4||teams.size()<2){
+            System.out.println("The database does not have the minimal requirements\nA mockup database will be uploaded");
+            database.readMockup(programmers, teams);
+        }
         Menu menu = new Menu();
         menu.setSysDate(CRUDDatabase.readDate());
         String today = dateFormat.format(getSysDate());

@@ -114,13 +114,20 @@ public class ProjectTeam {
             }
         }
         while (addAnother) {
+            System.out.println("Enter the programmer ID:");
             addId = scanner.nextLine();
+            boolean restart = false;
             for(ActiveProgrammer prog: programmers){
                 if(prog.getId()==Integer.parseInt(addId)&&prog.isActive()==true)
                 {
                     System.out.println("The choosen programmer is not available");
+                    restart = true;
                     break;
                 }
+            }
+            if(restart == true)
+            {
+                continue;
             }
             System.out.println("Do you want to add another programmer to the project? (Y-yes, Other key -no)");
             String option = scanner.nextLine();

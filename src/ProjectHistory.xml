@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <projects>
 
-<project>
-    <id>2</id>
-    <name>Edit Site</name>
-    <member>4</member>
-    <member>5</member>
-    <function>FrontEnd</function>
-    <function>Backend</function>
-    <beginDate>22/11/2019</beginDate>
-    <endDate>29/12/2019</endDate>
-  </project>
 </projects>
