@@ -468,10 +468,10 @@ public class ProjectTeam {
             deleteProject(programmers, teams);
         }
 
-        for (ProjectTeam proj : teams) {
-            if (proj.getId() == id) {
-                for (int i = 0; i < proj.getMembers().size(); i++) {
-                    int idChoice = Integer.parseInt(proj.getMembers().get(i));
+        for(int j=0; j<teams.size();j++){
+            if (teams.get(j).getId() == id) {
+                for (int i = 0; i < teams.get(j).getMembers().size(); i++) {
+                    int idChoice = Integer.parseInt(teams.get(j).getMembers().get(i));
                     for (ActiveProgrammer prog : programmers) {
                         if (prog.getId() == idChoice) {
                             prog.setActive(false);
@@ -480,8 +480,8 @@ public class ProjectTeam {
                         }
                     }
                 }
-                CRUDDatabase.saveHistory(proj);
-                teams.remove(teams.indexOf(proj));
+                CRUDDatabase.saveHistory(teams.get(j));
+                teams.remove(teams.indexOf(teams.get(j)));
             }
         }
         CRUDDatabase.deleteFile(programmers, teams, id, "projects");

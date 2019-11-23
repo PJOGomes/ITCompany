@@ -37,21 +37,21 @@
         <id>4</id>
         <firstName>Peter</firstName>
         <lastName>Run</lastName>
-        <startDatePresentProject>22/11/2019</startDatePresentProject>
+        <startDatePresentProject>30/11/0002</startDatePresentProject>
         <daysWorked>10</daysWorked>
         <wage>21.0</wage>
         <paymentMethod>100</paymentMethod>
-        <active>true</active>
+        <active>false</active>
     </programmer>
     <programmer>
         <id>5</id>
         <firstName>Michael</firstName>
         <lastName>Car</lastName>
-        <startDatePresentProject>22/11/2019</startDatePresentProject>
+        <startDatePresentProject>30/11/0002</startDatePresentProject>
         <daysWorked>8</daysWorked>
         <wage>25.0</wage>
         <paymentMethod>100</paymentMethod>
-        <active>true</active>
+        <active>false</active>
     </programmer>
     <project>
         <id>1</id>
@@ -63,14 +63,5 @@
         <beginDate>11/11/2019</beginDate>
         <endDate>29/11/2019</endDate>
     </project>
-    <project>
-        <id>2</id>
-        <name>Edit Site</name>
-        <member>4</member>
-        <member>5</member>
-        <function>FrontEnd</function>
-        <function>Backend</function>
-        <beginDate>22/11/2019</beginDate>
-        <endDate>29/12/2019</endDate>
-    </project>
+    
 </company>
