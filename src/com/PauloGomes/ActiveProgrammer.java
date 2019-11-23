@@ -101,6 +101,12 @@ public class ActiveProgrammer implements Programmer{
 
     //  Methods
 
+    //Function: Add Programmer
+    //Description: function to add a programmer to the programmer's List
+    //
+    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //
+    //@Output: No return
     @Override
     public void addProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) throws ParseException {
         Scanner scanner = new Scanner(System.in);
@@ -136,6 +142,12 @@ public class ActiveProgrammer implements Programmer{
         db.createFile(programmer, teams, prog);
     }
 
+    //Function: Edit Programmer
+    //Description: function to edit a programmer from the programmer's List
+    //
+    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //
+    //@Output: No return
     @Override
     public void editProgrammer(ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
         ActiveProgrammer p = new ActiveProgrammer();
@@ -143,9 +155,11 @@ public class ActiveProgrammer implements Programmer{
         int choosenId = 0;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose the Id of the programmer you want to edit:");
+        //Print the current programmers in the list
         for(ActiveProgrammer prog: programmer){
             System.out.println(prog.getId()+ " - "+prog.getLastName().toUpperCase()+", "+prog.getFirstName());
         }
+        //Check if the user inputs an integer
         if(scanner.hasNextInt())
         {
             choosenId = scanner.nextInt();
@@ -154,6 +168,7 @@ public class ActiveProgrammer implements Programmer{
             System.out.println("Choose a valid option");
             editProgrammer(programmer, teams);
         }
+        //Check if the integer entered by the user is a programmer in the list
         for(ActiveProgrammer prog: programmer){
             if(prog.getId()==choosenId)
             {
@@ -165,6 +180,7 @@ public class ActiveProgrammer implements Programmer{
             System.out.println("The choosen programmer is not in the company.");
             return;
         }
+        //Present the editing options
         System.out.println("Editing programmer "+p.getId());
         Boolean exit = false;
         //Choose options to edit
@@ -222,12 +238,19 @@ public class ActiveProgrammer implements Programmer{
         update.updateFile(programmer, teams, Integer.toString(choosenId), "ActiveProgrammer");
     }
 
+    //Function: Delete Programmer
+    //Description: function to delete a programmer from the programmer's List
+    //
+    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //
+    //@Output: No return
     @Override
     public void deleteProgrammer( ArrayList<ActiveProgrammer> programmer, ArrayList<ProjectTeam> teams) {
         System.out.println("Choose a programmer Id to delete the project: ");
         Manager.printProgrammer(programmer, teams);
         Scanner scanner = new Scanner(System.in);
         int id =0;
+        //Check if user inputs an integer
         if(scanner.hasNextInt()){
             id = scanner.nextInt();
             scanner.nextLine();
@@ -236,6 +259,7 @@ public class ActiveProgrammer implements Programmer{
             deleteProgrammer(programmer, teams);
         }
 
+        //Only allow to delete programmers that are currently not in a project
         for(ActiveProgrammer p: programmer){
             if(p.getId()==id){
                 if(p.isActive())
@@ -245,6 +269,7 @@ public class ActiveProgrammer implements Programmer{
                 }
             }
         }
+        //Remove programmer from the xml file
         CRUDDatabase.deleteFile(programmer, teams, id, "programmers");
         int indexRemove=-1;
         for(ActiveProgrammer prog: programmer) {
@@ -252,10 +277,17 @@ public class ActiveProgrammer implements Programmer{
                 indexRemove = programmer.indexOf(prog);
             }
         }
+        //Remove programmer from the list
         programmer.remove(indexRemove);
         System.out.println("Programmer deleted with success");
     }
 
+    //Function: Calculate Salary
+    //Description: function to calculate a programmer's salary until the current date
+    //
+    //@Input: an object of type ActiveProgrammer
+    //
+    //@Output: A double corresponding to the salary
     @Override
     public double calculateSalary(ActiveProgrammer person) {
         return person.getDaysWorkedMonth()*person.getWage()*person.getPaymentMethod()/100;

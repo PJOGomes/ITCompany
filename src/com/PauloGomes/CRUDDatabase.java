@@ -28,6 +28,12 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class CRUDDatabase {
 
+//Function: Get Doc
+//Description: Function to get the file specified as the database
+//
+//@Input: no input
+//
+//@Output: a Document corresponding to the file used as database
     public static Document getDoc() {
         try {
             File xmlDoc = new File(".\\src\\database.xml");
@@ -47,6 +53,12 @@ public class CRUDDatabase {
         return null;
     }
 
+    //Function: Append Document
+    //Description: function to append a node to the XML file used as database
+    //
+    //@Input: A Document corresponding to the file used as database
+    //
+    //@Output: no output
     public static void appendDocument(Document doc) {
         try {
             DOMSource source = new DOMSource(doc);
@@ -64,6 +76,12 @@ public class CRUDDatabase {
 
     }
 
+    //Function: Create file
+    //Description: Function to create a node with a new programmer in the xml file used as database
+    //
+    //@Input: A list of type ActiveProgrammer, a list of type ProjectTeam, and an object of type ActiveProgrammer to be inputed
+    //
+    //@Output: no output
     public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ActiveProgrammer prog) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = dateFormat.format(prog.getStartDatePresentProject());
