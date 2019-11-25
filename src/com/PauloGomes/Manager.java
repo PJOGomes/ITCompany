@@ -69,6 +69,7 @@ public class Manager {
             }
             System.out.println("Project started: "+dateFormat.format(item.getBeginDate()) );
             System.out.println("Project will end: "+dateFormat.format(item.getEndDate()) );
+            continue;
         }
     }
 
