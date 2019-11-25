@@ -28,7 +28,7 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class CRUDDatabase {
 
-//Function: Get Doc
+//Function: getDoc
 //Description: Function to get the file specified as the database
 //
 //@Input: no input
@@ -53,7 +53,7 @@ public class CRUDDatabase {
         return null;
     }
 
-    //Function: Append Document
+    //Function: appendDocument
     //Description: function to append a node to the XML file used as database
     //
     //@Input: A Document corresponding to the file used as database
@@ -76,10 +76,10 @@ public class CRUDDatabase {
 
     }
 
-    //Function: Create file
+    //Function: createFile
     //Description: Function to create a node with a new programmer in the xml file used as database
     //
-    //@Input: A list of type ActiveProgrammer, a list of type ProjectTeam, and an object of type ActiveProgrammer to be inputed
+    //@Input: An arraylist of type ActiveProgrammer, an arraylist of type ProjectTeam, and an object of type ActiveProgrammer to be inputed
     //
     //@Output: no output
     public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ActiveProgrammer prog) {
@@ -129,6 +129,7 @@ public class CRUDDatabase {
             active.appendChild(doc.createTextNode(Boolean.toString(prog.isActive())));
             programmer.appendChild(active);
 
+            //Append the node create to the root node
             root.appendChild(programmer);
 
             //Appending to File
@@ -140,6 +141,12 @@ public class CRUDDatabase {
 
     }
 
+    //Function: createFile
+    //Description:Function to create a node with a new project in the xml file used as database
+    //
+    //@Input: An arraylist of type ActiveProgrammer, an arraylist of type ProjectTeam, and an object of type ProjectTeam to be inputed
+    //
+    //@Output: no output
     public static void createFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, ProjectTeam proj) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -160,12 +167,13 @@ public class CRUDDatabase {
             name.appendChild(doc.createTextNode(proj.getName()));
             project.appendChild(name);
 
+            //Insert each one of the programmers in the project
             for (int i = 0; i <proj.getMembers().size() ; i++) {
                 Element member = doc.createElement("member");
                 member.appendChild(doc.createTextNode(proj.getMembers().get(i)));
                 project.appendChild(member);
             }
-
+            //Insert each function of each programmer
             for (int i = 0; i <proj.getFunctions().size() ; i++) {
                 Element function = doc.createElement("function");
                 function.appendChild(doc.createTextNode(proj.getFunctions().get(i)));
@@ -194,6 +202,12 @@ public class CRUDDatabase {
 
     }
 
+    //Function: readFile
+    //Description: Function to read the programmers and projects from an xml file used as database
+    //
+    //@Input: An arraylist of type ActiveProgrammer and an arraylist of type ProjectTeam
+    //
+    //@Output: no output
     public static void readFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -202,6 +216,7 @@ public class CRUDDatabase {
         Date endDate = new Date();
         try {
 
+            //Get the file used as database
             Document doc = getDoc();
 
             //Parse Active Programmers ArrayList
@@ -261,13 +276,22 @@ public class CRUDDatabase {
 
     }
 
+    //Function: updateFile
+    //Description: Function to update the details of a programmer in the xml file used as database
+    //
+    //@Input: An arraylist of type ActiveProgrammer, an arraylist of type ProjectTeam, the id of the programmer being edited
+    //and a string to tell the function it is editing a programmer
+    //
+    //@Output: no output
     public static void updateFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, String id, String change) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
 
+            //Get the file used as database
             Document doc = getDoc();
 
+            //If it is a programmer being edited
             if(change.equals("ActiveProgrammer")) {
                 //Get the programmer being edited
                 ActiveProgrammer p = new ActiveProgrammer();
@@ -279,6 +303,7 @@ public class CRUDDatabase {
                     }
                 }
 
+                //Search the xml file for the programmer being edited
                 NodeList progList = doc.getElementsByTagName("programmer");
                 for (int i = 0; i <progList.getLength() ; i++) {
                     Node eachNode = progList.item(i);
@@ -310,11 +335,19 @@ public class CRUDDatabase {
 
     }
 
+    //Function: deleteFile
+    //Description: Function to delete a programmer or a project from the file used as database
+    //
+    //@Input: An arraylist of type ActiveProgrammer, an arraylist of type ProjectTeam, the id of the programmer or project being edited
+    //and a string to tell the function if it is editing a programmer or a project
+    //
+    //@Output:no output
     public static void deleteFile(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams, int id, String deleteFrom) {
         try {
             Document doc = getDoc();
             //Get XML root
             Element root = doc.getDocumentElement();
+            //If we are deleting a programmer
             if(deleteFrom.equals("programmers"))
             {
                 NodeList listprog = doc.getElementsByTagName("programmer");
@@ -325,7 +358,7 @@ public class CRUDDatabase {
                         root.removeChild(eachNode);
                     }
                 }
-
+            //if we are deleting a project
             } else if(deleteFrom.equals("projects")) {
                 NodeList listproj = doc.getElementsByTagName("project");
                 for (int i = 0; i <listproj.getLength() ; i++) {
@@ -335,10 +368,12 @@ public class CRUDDatabase {
                         root.removeChild(eachNode);
                     }
                 }
+                //If we can't get a type node to be deleted
             }  else {
                 System.out.println("Error deleting");
                 return;
             }
+            //Write in the document
             appendDocument(doc);
 
         } catch (Exception e) {
@@ -347,6 +382,12 @@ public class CRUDDatabase {
 
     }
 
+    //Function: loadBackup
+    //Description: Function to upload the content of the backup database if the user decides to discart all changes made in the current session
+    //
+    //@Input: no input
+    //
+    //@Output: no output
     public static void loadBackup() throws IOException {
         File xmlDoc = new File(".\\src\\database.xml");
 //            If file doesn't exist create an empty file
@@ -362,6 +403,12 @@ public class CRUDDatabase {
 
     }
 
+    //Function: saveExit
+    //Description: Function to save the current database to the backup database if we exit the program with success
+    //
+    //@Input: no input
+    //
+    //@Output: no output
     public static void saveExit() throws IOException {
         //Clean backup
         new FileOutputStream(".\\src\\backup.xml").close();
@@ -371,11 +418,18 @@ public class CRUDDatabase {
         os.close();
     }
 
+    //Function: saveHistory
+    //Description: Function to save a project that is either deleted or reaches the end date in a xml file containing the project history
+    //
+    //@Input: A type ProjectTeam object
+    //
+    //@Output: no output
     public static void saveHistory(ProjectTeam proj){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
 
+            //Get the history file
             File xmlDoc = new File(".\\src\\ProjectHistory.xml");
 //            If file doesn't exist create an empty file
             if(!xmlDoc.exists()){
@@ -424,6 +478,7 @@ public class CRUDDatabase {
 
             root.appendChild(project);
 
+            //Write in the xml file, appending the node to the xml file
             DOMSource source = new DOMSource(doc);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -440,13 +495,19 @@ public class CRUDDatabase {
 
     }
 
+    //Function: readHistory
+    //Description: Fucntion to read the projects that ended or were deleted
+    //
+    //@Input: An arrayList of type Project Team
+    //
+    //@Output: no output
     public static void readHistory(ArrayList<ProjectTeam> historyList) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         Date startDate = new Date();
         Date endDate = new Date();
         try {
-
+            //Get the file of the Projects history
             File xmlDoc = new File(".\\src\\ProjectHistory.xml");
 //            If file doesn't exist create an empty file
             if(!xmlDoc.exists()){
@@ -491,10 +552,18 @@ public class CRUDDatabase {
         }
     }
 
+    //Function: readDate
+    //Description: Function to read the date contained in te file used as database that represents the date that the system had it's
+    //last exit with status 0 (success)
+    //
+    //@Input:no input
+    //
+    //@Output: a type Date value that represents the current system date (in the database)
     public static Date readDate() throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try{
             getDoc();
+            //Get the tag that contains the date
             NodeList nodeList = getDoc().getElementsByTagName("date");
             Element single = (Element) nodeList.item(0);
             return dateFormat.parse(single.getElementsByTagName("last").item(0).getTextContent());
@@ -502,9 +571,16 @@ public class CRUDDatabase {
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        //In case we don't get the date in the database
         return dateFormat.parse("00/00/000");
     }
 
+    //Function: saveDate
+    //Description: Function to save the system date to the xml file
+    //
+    //@Input: no input
+    //
+    //@Output: no output
     public static void saveDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try{
@@ -521,6 +597,13 @@ public class CRUDDatabase {
 
     }
 
+    //Function: readMockup
+    //Description: Function that reads a mockup database if at the beginning of the program we don't have the minimum requirements
+    //to run the program (4 programmers and 2 projects with 2 programmers)
+    //
+    //@Input: no input
+    //
+    //@Output: no output
     public static void readMockup(ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
@@ -528,6 +611,7 @@ public class CRUDDatabase {
         Date endDate = new Date();
         try {
 
+            //Get the mockup database
             File xmlDoc = new File(".\\src\\routineStart.xml");
 //            If file doesn't exist create an empty file
             if(!xmlDoc.exists()){

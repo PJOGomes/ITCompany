@@ -101,10 +101,10 @@ public class ActiveProgrammer implements Programmer{
 
     //  Methods
 
-    //Function: Add Programmer
+    //Function: addProgrammer
     //Description: function to add a programmer to the programmer's List
     //
-    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //@Input: An arraylist of type ActiveProgrammer and an arraylist of type ProjectTeam
     //
     //@Output: No return
     @Override
@@ -142,10 +142,10 @@ public class ActiveProgrammer implements Programmer{
         db.createFile(programmer, teams, prog);
     }
 
-    //Function: Edit Programmer
+    //Function: editProgrammer
     //Description: function to edit a programmer from the programmer's List
     //
-    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //@Input: An arraylist of type ActiveProgrammer and an arraylist of type ProjectTeam
     //
     //@Output: No return
     @Override
@@ -238,10 +238,10 @@ public class ActiveProgrammer implements Programmer{
         update.updateFile(programmer, teams, Integer.toString(choosenId), "ActiveProgrammer");
     }
 
-    //Function: Delete Programmer
+    //Function: deleteProgrammer
     //Description: function to delete a programmer from the programmer's List
     //
-    //@Input: A list of type ActiveProgrammer and a list of type ProjectTeam
+    //@Input: An arraylist of type ActiveProgrammer and an arraylist of type ProjectTeam
     //
     //@Output: No return
     @Override
@@ -282,7 +282,7 @@ public class ActiveProgrammer implements Programmer{
         System.out.println("Programmer deleted with success");
     }
 
-    //Function: Calculate Salary
+    //Function: calculateSalary
     //Description: function to calculate a programmer's salary until the current date
     //
     //@Input: an object of type ActiveProgrammer
