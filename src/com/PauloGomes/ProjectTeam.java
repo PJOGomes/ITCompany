@@ -81,7 +81,12 @@ public class ProjectTeam {
 
 //    Methods
 
-
+    //Function: createProject
+    //Description: A function to create a new project according to the informations given by the user
+    //
+    //@Input:An arrayList of type ActiveProgrammer and an arrayList of type ProjectTeam
+    //
+    //@Output: no output
     public static void createProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
 
         int count = teams.size();
@@ -96,16 +101,19 @@ public class ProjectTeam {
         System.out.println("Enter the project name: ");
         String name = scanner.nextLine();
         int countInactive =0;
+        //Check the number of available programmers to work in the project
         for (ActiveProgrammer prog: programmers)
         {
             if(!prog.isActive())
                 countInactive++;
         }
+        //If there are insuficient programmers
         if(countInactive<2)
         {
             System.out.println("There aren't enough programmers available to start a new project");
             return;
         }
+        //Present the available programmers
         System.out.println("Choose the programmers available for the project (Insert Id of minimum 2 programmers):");
         for (ActiveProgrammer prog: programmers)
         {
@@ -118,6 +126,7 @@ public class ProjectTeam {
             addId = scanner.nextLine();
             boolean restart = false;
             for(ActiveProgrammer prog: programmers){
+                //If the choosen id is from a non available programmer
                 if(prog.getId()==Integer.parseInt(addId)&&prog.isActive()==true)
                 {
                     System.out.println("The choosen programmer is not available");
@@ -133,6 +142,7 @@ public class ProjectTeam {
             String option = scanner.nextLine();
             if(option.equals("Y")||option.equals("y")) {
                 members.add(addId);
+                //Change the programmers info if he is selected
                 for(ActiveProgrammer prog: programmers){
                     if(prog.getId()==Integer.parseInt(addId)){
                         prog.setActive(true);
@@ -151,6 +161,7 @@ public class ProjectTeam {
                     }
                     CRUDDatabase.updateFile(programmers, teams, Integer.toString(prog.getId()), "ActiveProgrammer");
                 }
+                //If the project has less than two programmers
                 if(members.size()<2) {
                     System.out.println("For a project to be valid, you must have at least two active programmers. \n1 - Add another programmer\n2 - Exit and delete current data");
                     boolean exit = false;
@@ -161,6 +172,7 @@ public class ProjectTeam {
                                 addAnother=true;
                                 break;
                             case "2":
+                                //Change the previous programmers details to non active type
                                 for(ActiveProgrammer prog: programmers){
                                     if(prog.getId()==Integer.parseInt(addId)){
                                         prog.setActive(false);
@@ -177,6 +189,7 @@ public class ProjectTeam {
                 break;
             }
         }
+        //Set each inserted programmer's functions
         for (int i = 0; i <members.size() ; i++) {
             String searchId = members.get(i);
             String function;
@@ -188,18 +201,29 @@ public class ProjectTeam {
                 }
             }
         }
+        //Set the beginning date of the project to the current date
         System.out.println("The start date of the project will be today (System Date)");
+        //Get the end date of the project
         System.out.println("When will the project end: (dd/MM/yyyy format)");
         String end = scanner.nextLine();
         Date endDate = dateFormat.parse(end);
 
+        //Create the new project
         ProjectTeam proj = new ProjectTeam(lastId+1, name, members, functions,Menu.getSysDate(),endDate);
         CRUDDatabase write = new CRUDDatabase();
+        //Add project to the database
         write.createFile(programmers, teams, proj);
+        //Add project to the list
         teams.add(proj);
 
     }
 
+    //Function: editProject
+    //Description: A function to edit a project according to the informations given by the user
+    //
+    //@Input:An arrayList of type ActiveProgrammer and an arrayList of type ProjectTeam
+    //
+    //@Output: no output
     public static void editProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
         ProjectTeam t = new ProjectTeam();
         CRUDDatabase db = new CRUDDatabase();
@@ -215,6 +239,7 @@ public class ProjectTeam {
             System.out.println("Enter a valid Id");
             editProject(programmers, teams);
         }
+        //get the project the user choose
         for(ProjectTeam proj: teams){
             if(proj.getId() == choosenId) {
                 t = proj;
@@ -260,6 +285,7 @@ public class ProjectTeam {
                     break;
                 case "4":
                     Date today = new Date();
+                    //Do not allow to change a project's date if it has started
                     if(t.getBeginDate().before(today))
                     {
                         System.out.println("You can't edit the start date of an ongoing project");
@@ -303,11 +329,19 @@ public class ProjectTeam {
                             break;
             }
         }
+        //Change the project in the database
         db.deleteFile(programmers,teams, t.getId(), "projects");
         db.createFile(programmers, teams, t);
 
     }
 
+    //Function: editTeam
+    //Description: A function to edit a project's team members according to the informations given by the user
+    //
+    //@Input:An object of type ProjectTeam that represents the project being edited arrayList of type ActiveProgrammer
+    // and an arrayList of type ProjectTeam
+    //
+    //@Output: no output
     public static void editTeam(ProjectTeam t, ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
         Scanner scanner = new Scanner(System.in);
         String option;
@@ -322,6 +356,7 @@ public class ProjectTeam {
             switch(option){
                 case "1":
                     int count=0;
+                    //Check the available programmers
                     for(ActiveProgrammer prog: programmers)
                     {
 
@@ -352,6 +387,7 @@ public class ProjectTeam {
                             break;
                         }
                         t.members.add(Integer.toString(choosenId));
+                        //Set the new programmer's functions
                     System.out.println("What will be the programmer's function?");
                     String function = scanner.nextLine();
                     t.getFunctions().add(function);
@@ -379,12 +415,14 @@ public class ProjectTeam {
                             System.out.println("Enter a valid Id");
                             break;
                         }
+                        //Check the number of programmers in the project
                         if(t.getMembers().size()<2){
                             System.out.println("You cannot have a project with only one programmer. If you continue the project will be removed. \nDo you want to continue? (Y - yes; other key: no)");
                             boolean exitLoop = false;
                             while(!exitLoop){
                                 String choice = scanner.nextLine();
                                 if(choice.equals("Y")||choice.equals("y")){
+                                    //Delete the project and set the programmer info in the project to the non active options
                                     for (int i = 0; i <t.getMembers().size() ; i++) {
                                         int id=Integer.parseInt(t.getMembers().get(i));
                                         for(ActiveProgrammer prog: programmers)
@@ -407,6 +445,7 @@ public class ProjectTeam {
                         int index = t.getMembers().indexOf(Integer.toString(choosen));
                         t.getMembers().remove(index);
                         t.getFunctions().remove(index);
+                        //Remove the choosen programmer
                         for(ActiveProgrammer prog: programmers)
                         {
                             if(prog.getId()==choosen){
@@ -418,6 +457,7 @@ public class ProjectTeam {
                     break;
                 case "3":
                     int count2=0;
+                    //Check the available programmers to exchange
                     for(ActiveProgrammer prog: programmers)
                     {
 
@@ -440,6 +480,7 @@ public class ProjectTeam {
                     t.getMembers().add(chooseEntering);
                     t.getMembers().remove(t.getMembers().indexOf(chooseExit));
                     System.out.println("Entrada "+indexEntrance +" Saida "+indexExit);
+                    //Set the infos of the two programmers, one to active, and the other to innactive
                     for(ActiveProgrammer p2: programmers) {
                         if(p2.getId()==indexEntrance){
                             p2.setActive(true);
@@ -461,6 +502,12 @@ public class ProjectTeam {
         }
     }
 
+    //Function: deleteProject
+    //Description: A function to delete a  project according to the informations given by the user
+    //
+    //@Input:An arrayList of type ActiveProgrammer and an arrayList of type ProjectTeam
+    //
+    //@Output: no output
     public static void deleteProject (ArrayList<ActiveProgrammer> programmers, ArrayList<ProjectTeam> teams) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Choose a project Id to delete the project: ");
@@ -474,7 +521,7 @@ public class ProjectTeam {
             System.out.println("Please choose a valid option: ");
             deleteProject(programmers, teams);
         }
-
+        //Update the info of the team members of the project to innactive
         for(int j=0; j<teams.size();j++){
             if (teams.get(j).getId() == id) {
                 for (int i = 0; i < teams.get(j).getMembers().size(); i++) {
@@ -487,13 +534,23 @@ public class ProjectTeam {
                         }
                     }
                 }
+                //Save the project in the history file
                 CRUDDatabase.saveHistory(teams.get(j));
+                //Remove file from list
                 teams.remove(teams.indexOf(teams.get(j)));
             }
         }
+        //Update database
         CRUDDatabase.deleteFile(programmers, teams, id, "projects");
     }
 
+    //Function: checkProjectDates
+    //Description: A function to check if the start and end dates of a project are valid
+    //
+    //@Input:An object of type Date that represents the start date of a project and an object of type Date that represents
+    // the end date of a project
+    //
+    //@Output: true if the dates are valid, false if the dates are invalid
     public static boolean checkProjectDates(Date dateStart, Date dateEnd){
         if(dateStart.after(dateEnd)){
             return false;
