@@ -191,9 +191,7 @@ public class Menu {
                     subMenu();
                     break;
                 case "0":
-                    mainMenu(programmers, teams);
-                    exit = true;
-                    break;
+                    return;
                 default:
                     System.out.println("Please enter a valid option");
                     break;
@@ -239,9 +237,7 @@ public class Menu {
                     subMenu();
                     break;
                 case "0":
-                    mainMenu(programmers, teams);
-                    exit = true;
-                    break;
+                    return;
                 default:
                     System.out.println("Please enter a valid option");
                     break;
@@ -292,9 +288,7 @@ public class Menu {
                     CRUDDatabase.readHistory(historyList);
                     Manager.printHistory(historyList);
                 case "0":
-                    mainMenu(programmers, teams);
-                    exit = true;
-                    break;
+                    return;
                 default:
                     System.out.println("Please enter a valid option");
                     break;
